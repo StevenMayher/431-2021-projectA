@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Outline for Project Report</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">431 Project A</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="data.html">Data</a>
+</li>
+<li>
+  <a href="proposal.html">The Proposal</a>
+</li>
+<li>
+  <a href="analyses.html">Analyses</a>
+</li>
+<li>
+  <a href="final.html">Final Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Examples &amp; Tips
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exampleA.html">Project Proposal Example</a>
+    </li>
+    <li>
+      <a href="exampleB.html">Outline of Analysis Section</a>
+    </li>
+    <li>
+      <a href="check_final.html">Final Checklist</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://thomaselove.github.io/431/contact.html">Contact Us</a>
+</li>
+<li>
+  <a href="https://thomaselove.github.io/431/">431 Homepage</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Outline for Project Report</h1>
+
+</div>
+
+
+<p>This page was last updated: 2021-08-19 14:52:02.</p>
+<p>Here is an outline of the “Analysis” section of your final Project A report. Note that none of this material should be included in your Project A proposal.</p>
+<div id="analysis-1" class="section level1">
+<h1>Analysis 1</h1>
+<div id="the-variables" class="section level2">
+<h2>The Variables</h2>
+<p>In this section you will build a simple linear regression model to predict your outcome using one of your two quantitative predictors (it’s your choice.) Start by identifying those variables, and restricting your data set for this analysis to the complete cases on those variables.</p>
+<ul>
+<li>Use complete English sentences to identify your outcome and your predictor, describing what each variable means and its units of measurement.</li>
+<li>Also specify the name of each variable in your tibble (making it clear which is the outcome and which the predictor), the name of your tibble, which states you’re studying, and how many counties have complete data on both variables.</li>
+<li>Finally, specify the values of your outcome and predictor for Cuyahoga County, in Ohio, where CWRU’s campus is located.</li>
+</ul>
+</div>
+<div id="research-question" class="section level2">
+<h2>Research Question</h2>
+<p>Here, you should state your research question clearly. A good research question (and your response to it) is the most important part of this analysis.</p>
+<ul>
+<li>Do not use more than one research question for this Analysis.</li>
+<li>A research question will end with a question mark, and will be something you will be able to answer (or at least respond to effectively) after your analysis is complete.</li>
+</ul>
+<div id="guidance-on-research-questions-from-dr.-love" class="section level3">
+<h3>Guidance on Research Questions from Dr. Love</h3>
+<ul>
+<li>Examples of dull but moderately effective and minimally appropriate research questions in this setting would be:</li>
+</ul>
+<p><strong>How well does a linear model using [predictor] predict [outcome], in [number] counties in the states of [list of your states]?</strong></p>
+<p>or</p>
+<p><strong>What is the nature of the association between [predictor] and [outcome], in [number] counties in the states of [list of your states]?</strong></p>
+<ul>
+<li>You should be able to do meaningfully better than that, especially if you have a reason to believe something in advance about the direction or strength of the association you are anticipating.</li>
+<li>However, if you’re struggling, using that format will be OK.</li>
+<li>A research question uses formal but clear language.</li>
+<li>Given your planned analyses, stay away from statements about cause and effect, and don’t use the words correlate or regression (in any form) in your research question.</li>
+</ul>
+</div>
+</div>
+<div id="visualizing-the-data" class="section level2">
+<h2>Visualizing the Data</h2>
+<p>Provide an attractive, well-labeled scatterplot of your outcome and predictor, before any transformations, including all code necessary to build it, and describe what the plot tells you about the association of the variables, as detailed in the instructions.</p>
+</div>
+<div id="transformation-assessment" class="section level2">
+<h2>Transformation Assessment</h2>
+<p>Here, you will provide information about any transformations you chose to apply to the outcome, and explain why you did (or didn’t) choose to use a transformation.</p>
+<ul>
+<li><p>If you decide to use a transformation, specify the transformation you’ve chosen carefully, and show the scatterplot of the transformed data, using the same suggestions as were provided in the previous section to describe the resulting plot. Write a few sentences describing the transformations you considered, and why you thought this was the most promising, and why you eventually decided to use the transformed versions of your variables.</p></li>
+<li><p>If you decide <strong>not</strong> to use a transformation, identify the ONE plot which was the most promising of available transformations and show that one. Write a few sentences describing the transformations you considered, and why you thought this was the most promising, and why you eventually decided to stick with the original versions of the variables.</p></li>
+</ul>
+<div id="guidance-from-dr.-love-on-the-transformation-assessment" class="section level3">
+<h3>Guidance from Dr. Love on the Transformation Assessment</h3>
+<p>Your response will include ONE plot demonstrating a particular transformation, although you will probably fit and view several plots in order to select a final one for this work.</p>
+<p>For this part of Project A, confine your search to either a logarithm, an inverse, or a square as applied to the outcome. If you want to consider one of those transformations for the predictor as well, that’s OK but not crucial. You should select the most promising transformation on the basis of a scatterplot (perhaps with a loess smooth and linear fit) after the transformation has been applied.</p>
+<p>You are discouraged from using numerical summaries of fit in this section. Of course, summary statistics like <span class="math inline">\(R^2\)</span> when the outcome is transformed will definitely not be comparable.</p>
+<p>Note that this transformation assessment is part of Analysis 1, but will not be shown in Analyses 2 or 3. Feel free to use the transformation (of the outcome) that you select in Analysis 1 for the other two Analyses, if you like.</p>
+</div>
+</div>
+<div id="the-fitted-model" class="section level2">
+<h2>The Fitted Model</h2>
+<p>Fit your model to use your predictor to predict your outcome (applying your selected transformation) and provide the code you used, and the following summary elements in this section.</p>
+<ol style="list-style-type: decimal">
+<li><p>A written statement of the full prediction equation, with coefficients nicely rounded, and a careful description of what the coefficients mean in context.</p></li>
+<li><p>A tidy summary of the model’s coefficients, including 90% confidence interval for model estimates.</p></li>
+<li><p>The model’s R-squared, residual standard error, the number of observations to which the model was fit, and the Pearson correlation of your predictor and outcome.</p></li>
+</ol>
+</div>
+<div id="residual-analysis" class="section level2">
+<h2>Residual Analysis</h2>
+<p>Here, you’ll need to do four things.</p>
+<ol style="list-style-type: decimal">
+<li>prepare a pair of residual plots (one to assess residuals vs. fitted values for non-linearity, and one to assess Normality in the residuals or the standardized residuals.)</li>
+<li>interpret those plots in terms of what they tell you about how well the assumptions of linearity and Normality hold for your setting, in complete English sentences.</li>
+<li>display your model’s prediction for the original (untransformed) outcome you are studying for Cuyahoga County, in Ohio, and compare it to Cuyahoga’s actual value of this outcome.</li>
+<li>identify the two counties (by name and state) where the model you’ve fit is least successful at predicting the outcome (in the sense of having the largest residual in absolute value.)</li>
+</ol>
+<ul>
+<li>The <code>augment</code> function would be very helpful here.</li>
+<li>If you model is called <code>m1</code>, you could use something like <code>plot(m1, which = c(1:2))</code> to obtain these two plots and that’s OK.</li>
+<li>You can produce a more pleasing picture using <code>ggplot2</code> and <code>patchwork</code> following the strategy I’ve demonstrated multiple times in the slides and the Course Notes, should you desire.</li>
+</ul>
+</div>
+<div id="conclusions-and-limitations" class="section level2">
+<h2>Conclusions and Limitations</h2>
+<p>Here, you’ll write two paragraphs.</p>
+<p>In the first paragraph, you should provide a clear restatement of your research question, followed by a clear and appropriate response to your research question, motivated by your results.</p>
+<p>Then, write a paragraph which summarizes the key limitations of your work in Analysis 1.</p>
+<ul>
+<li>If you see problems with regression assumptions in your residual plot, that would be a good thing to talk about here, for instance.</li>
+<li>Another issue that may be worth discussing is your target population, and what evidence you can describe that might indicate whether your selected states are a representative sample of the US as a whole, or perhaps some particular part of the United States.</li>
+</ul>
+</div>
+</div>
+<div id="analysis-2" class="section level1">
+<h1>Analysis 2</h1>
+<div id="the-variables-1" class="section level2">
+<h2>The Variables</h2>
+<p>In this section you will build a simple linear regression model to predict your outcome using either of your two categorical predictors (it’s your choice.) Start by identifying those variables, and restricting your data set for this analysis to the complete cases on those variables.</p>
+<ul>
+<li>Use complete English sentences to identify your outcome and your predictor, describing what each variable means and the available categories for the predictor. Be sure the predictor is represented in R as a factor, with an appropriate ordering.</li>
+<li>Again, specify the name of each variable in your tibble (making it clear which is the outcome and which the predictor), the name of your tibble, which states you’re studying, and how many counties have complete data on both variables.</li>
+<li>Finally, specify the values of your outcome and predictor for Cuyahoga County, in Ohio, where CWRU’s campus is located.</li>
+</ul>
+</div>
+<div id="research-question-1" class="section level2">
+<h2>Research Question</h2>
+<p>Here, you should state your research question clearly. A good research question (and your response to it) is the most important part of this analysis.</p>
+<ul>
+<li>Do not use more than one research question for this Analysis.</li>
+<li>A research question will end with a question mark, and will be something you will be able to answer (or at least respond to effectively) after your analysis is complete.</li>
+</ul>
+<div id="guidance-on-research-questions-from-dr.-love-1" class="section level3">
+<h3>Guidance on Research Questions from Dr. Love</h3>
+<ul>
+<li>Examples of dull but moderately effective and minimally appropriate research questions for analysis 2 would be:</li>
+</ul>
+<p><strong>Does [category A] or [category B] show higher levels of [outcome], in [number] counties in the states of [list of your states]?</strong> (for a binary predictor)</p>
+<p>or</p>
+<p><strong>Which of [the categories in your predictor] is associated with the highest mean level of [outcome], in [number] counties in the states of [list of your states]?</strong> (for a multi-categorical predictor)</p>
+<ul>
+<li>Otherwise, use the same guidance about research questions I provided for analysis 1.</li>
+</ul>
+</div>
+</div>
+<div id="visualizing-the-data-1" class="section level2">
+<h2>Visualizing the Data</h2>
+<p>In Analysis 2, it is up to decide whether or not a transformation of the outcome would be valuable. Your model will assume that the distribution of the outcome is Normal, with similar variance across each level of your categorical predictor. If you decide to transform the outcome, again, stick with either the logarithm, inverse or square.</p>
+<p>Provide an attractive boxplot (with or without a violin plot) showing your outcome broken down by levels of your predictor, after whatever transformation you choose (if any), including all code necessary to build it, and describe what the plot tells you about the association of the variables, as detailed in the instructions.</p>
+</div>
+<div id="the-fitted-model-1" class="section level2">
+<h2>The Fitted Model</h2>
+<p>Fit your model to use your predictor to predict your outcome (applying your selected transformation) and provide the code you used, and the following summary elements in this section.</p>
+<ol style="list-style-type: decimal">
+<li><p>A written statement of the full prediction equation, with coefficients nicely rounded, and a careful description of what the coefficients mean in context.</p></li>
+<li><p>A tidy summary of the model’s coefficients, including 90% confidence interval for model estimates.</p></li>
+<li><p>The model’s R-squared, residual standard error, and the number of observations to which the model was fit.</p></li>
+</ol>
+</div>
+<div id="prediction-analysis" class="section level2">
+<h2>Prediction Analysis</h2>
+<p>Here, you’ll need to do three things.</p>
+<ol style="list-style-type: decimal">
+<li>plot the residuals against the categorical predictor in a useful way to help you assess Normality of the residuals within each category.</li>
+<li>display your model’s prediction for the original (untransformed) outcome you are studying for Cuyahoga County, in Ohio, and compare it to Cuyahoga’s actual value of this outcome.</li>
+<li>identify the two counties (by name and state) where the model you’ve fit is least successful at predicting the outcome (in the sense of having the largest residual in absolute value.)</li>
+</ol>
+<p>Again, <code>augment</code> would be very helpful here.</p>
+</div>
+<div id="conclusions-and-limitations-1" class="section level2">
+<h2>Conclusions and Limitations</h2>
+<p>Your first paragraph in this response should provide a clear restatement of your research question, and then a clear and appropriate response to your research question, motivated by your results. This should include a statement comparing the categories on the mean of the outcome you modeled.</p>
+<p>Then, in your second and final paragraph in this section, provide a brief description of the limitations of this Analysis, Be specific about your concerns.</p>
+</div>
+</div>
+<div id="analysis-3" class="section level1">
+<h1>Analysis 3</h1>
+<p>In this section you will build a linear regression model to predict your outcome using one of your two quantitative predictors (it’s your choice) and the <code>state</code> (which should be a factor in your model with Ohio as the baseline category.)</p>
+<div id="the-variables-2" class="section level2">
+<h2>The Variables</h2>
+<ul>
+<li>Do everything in this section that I recommended for the Variables section in Analysis 1.</li>
+</ul>
+</div>
+<div id="research-question-2" class="section level2">
+<h2>Research Question</h2>
+<p>Here, you should state your research question clearly. A good research question (and your response to it) is the most important part of this analysis.</p>
+<ul>
+<li>Do not use more than one research question for this Analysis.</li>
+<li>A research question will end with a question mark, and will be something you will be able to answer (or at least respond to effectively) after your analysis is complete.</li>
+</ul>
+<div id="guidance-on-research-questions-from-dr.-love-2" class="section level3">
+<h3>Guidance on Research Questions from Dr. Love</h3>
+<p>A dull but moderately effective and minimally appropriate research questions in this setting would be:</p>
+<p><strong>How well does [predictor] predict [outcome] after accounting for differences between states?</strong></p>
+<ul>
+<li>Again, follow the guidance from Analysis 1.</li>
+</ul>
+</div>
+</div>
+<div id="visualizing-the-data-2" class="section level2">
+<h2>Visualizing the Data</h2>
+<p>Provide an attractive, well-labeled scatterplot of your outcome and your quantitative predictor, and incorporate some way of providing separate results by state. You can do this in several ways in R, including through the use of facets.</p>
+<ul>
+<li>Plot the data incorporating the transformation for your outcome (if any) that you will use in your model for Analysis 3.</li>
+<li>In your model for Analysis 3, use the same transformation for the outcome that you used in Analysis 1.</li>
+<li>Show your code, and describe what the plot tells you about the association of the variables.</li>
+</ul>
+</div>
+<div id="the-fitted-model-2" class="section level2">
+<h2>The Fitted Model</h2>
+<p>Fit your model to use your predictors to predict your outcome (applying your selected transformation) and provide the code you used, and the following summary elements in this section.</p>
+<ol style="list-style-type: decimal">
+<li><p>A written statement of the full prediction equation, with coefficients nicely rounded, and a careful description of what the coefficients mean for the intercept, the quantitative predictor and one of the states, in context.</p></li>
+<li><p>A tidy summary of the model’s coefficients, including 90% confidence interval for model estimates. Be sure that Ohio is used as the baseline state.</p></li>
+<li><p>The model’s R-squared, residual standard error, the number of observations to which the model was fit.</p></li>
+</ol>
+</div>
+<div id="residual-analysis-1" class="section level2">
+<h2>Residual Analysis</h2>
+<p>Do what you did in Analysis 1.</p>
+</div>
+<div id="conclusion-and-limitations" class="section level2">
+<h2>Conclusion and Limitations</h2>
+<p>Your first paragraph in this response should provide a clear restatement of your research question, and then a clear and appropriate response to your research question, motivated by your results.</p>
+<p>Then, write a paragraph to summarize the key limitations of your work, as you did in the previous analyses.</p>
+<div id="checklist" class="section level3">
+<h3>Checklist?</h3>
+<p>Note that there is a <a href="check_final.html">checklist for the final report</a> as part of the <a href="check_final.html">Examples &amp; Hints</a> page that includes many things we’ll be looking for in grading. It’s well worth your time to review the checklist before submitting your work.</p>
+</div>
+</div>
+</div>
+
+<p><img alt="431 Footer" style="border-width:10" src="431_foot2.PNG" height="200" width ="800"/></a> 
+</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

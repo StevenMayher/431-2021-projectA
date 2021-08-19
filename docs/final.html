@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project A Final Report</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">431 Project A</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="data.html">Data</a>
+</li>
+<li>
+  <a href="proposal.html">The Proposal</a>
+</li>
+<li>
+  <a href="analyses.html">Analyses</a>
+</li>
+<li>
+  <a href="final.html">Final Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Examples &amp; Tips
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exampleA.html">Project Proposal Example</a>
+    </li>
+    <li>
+      <a href="exampleB.html">Outline of Analysis Section</a>
+    </li>
+    <li>
+      <a href="check_final.html">Final Checklist</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://thomaselove.github.io/431/contact.html">Contact Us</a>
+</li>
+<li>
+  <a href="https://thomaselove.github.io/431/">431 Homepage</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Project A Final Report</h1>
+
+</div>
+
+
+<p>This page was last updated: 2021-08-19 14:52:03.</p>
+<div id="your-final-submission-involves-three-parts" class="section level2">
+<h2>Your Final Submission involves Three Parts</h2>
+<ol style="list-style-type: decimal">
+<li><strong>The Report</strong> You will submit a polished report in both R Markdown and HTML augmenting the work you developed in the Proposal addressing all of the issues described in the Proposal and now adding in the Analytic Tasks and Conclusions material.</li>
+</ol>
+<p>Note that there is a <a href="check_final.html">checklist for the final report</a> as part of the <a href="check_final.html">Examples &amp; Hints</a> page that includes many things we’ll be looking for in grading. It’s well worth your time to review the checklist before submitting your work.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>The Video</strong> You will produce a video in mp4 format of no more than 3 minutes in length if you’re working alone, and of no more than 5 minutes in length between you if you are working in a pair. In this video, you will describe what you believe to be the most important findings for your choice of two of the three analytic tasks you have completed, while explaining your process of cleaning and managing the data as much as you believe is necessary for people to understand and evaluate your conclusions.
+<ul>
+<li>If you are working alone on the project, begin your presentation by introducing yourself and describing your sample (which states you used and specifying the research questions you’ll be addressing in your discussion.)</li>
+<li>If you are working in a pair, each of you will present one of the two analyses, either in two separate videos (which combined are no more than 5 minutes long) or in one video. In either case, introduce yourself at the start of your portion of the video, and specify the states you used (even though you and your partner will be using the same states) and the research question you’ll be addressing.</li>
+<li>Your video must include your face (so recording in Zoom is preferable) and must share graphs and results taken from the report you build.</li>
+<li>All videos should include a clear statement of the research questions for any analyses presented, and justify the responses to those questions with results from the analyses.</li>
+<li>The video must stand on its own, in the sense that it must be completely understandable to someone who has not read your report, but who is generally familiar with County Health Rankings and its measurements. You need to tell us everything we need to know to evaluate your claims, and no more.</li>
+</ul></li>
+<li><strong>The Self-Evaluation</strong> Once you have submitted the other two elements of your project, you will each (whether working alone or with a partner) submit a brief self-evaluation via a Google Form Dr. Love will provide in October. The form should take about 10 minutes to complete.
+<ul>
+<li>If you’re curious, the form asks you to address multiple issues related to the Project in multiple-choice questions. There are also two little essays that we’ll ask for, which should be written independently from your partner (if you have one).
+<ul>
+<li>You will summarize the key finding of your Project A study in your own well-chosen words (where your response should be in the neighborhood of 75 words, describing one key finding, which might come from any of your three analyses.)</li>
+<li>Also, you will tell us what the most important piece of advice is that you wished you’d heard when you began Project A (and we’d like at least 25 words here).</li>
+</ul></li>
+</ul></li>
+</ol>
+<p>All three elements are due on Monday <strong>2021-11-01 at 9 PM</strong> as indicated on the <a href="https://thomaselove.github.io/431/calendar.html">Course Calendar</a>.</p>
+<div id="grading" class="section level3">
+<h3>Grading</h3>
+<ul>
+<li>Project A is graded on a scale from 10 to 100, although I expect the highest grade to be close to 95. Dr. Love works with the TAs to provide feedback and grade the projects, but the final Project A grade is determined solely by him.</li>
+<li>A successful Proposal is a mandatory part of Project A, and is worth 10 points as part of the Project A grade.</li>
+<li>The Report is worth 40 points. It is unlikely that anyone will score above 37 points, which is the planned score for a completely accurate and polished report. Most scores will likely fall between 25 and 35 points on this element.
+<ul>
+<li>The most important parts of the Report are accurate (and effectively presented) data development, accurate (and effectively presented) analyses, and the appropriateness of your research questions and your responses to them in light of your analyses.</li>
+<li>Most of the feedback you will receive on your Project A report will relate to specific grading criteria and a rubric that will be evaluated (mostly) by the teaching assistants. The checklist we used to help build the rubric is available to you as part of the <a href="check_final.html">Examples &amp; Hints</a> page.</li>
+</ul></li>
+<li>The Video is also worth 40 points. It is unlikely that anyone will score above 37 points, which is the planned score for a very strong presentation, which is clear to see and hear and which is effective. Most scores will likely fall between 25 and 35 points on this element.
+<ul>
+<li>All videos should include a clear statement of the research questions for any analyses presented, and justify the responses to those questions with results from the analyses.</li>
+<li>Most of the comments Professor Love builds in response to your Project A will relate to the Video. Do not treat it lightly. It is a vital part of the work, despite its short length.</li>
+</ul></li>
+<li>The Self-Evaluation is worth 10 points. People who complete each question on the self-evaluation thoughtfully and on time will receive the full 10 points.</li>
+</ul>
+<p>Overall, a project score of 89 or higher is regarded as an A, and a score of 70 to 84 is regarded as a B, with scores between 85 and 88 falling somewhere in between. Project grading is set up to generate a median score near 85.</p>
+</div>
+<div id="hint-more-isnt-better." class="section level3">
+<h3>Hint: More isn’t better.</h3>
+<p>To improve your grade, perform the elements of the data science cycle (ingestion, tidying, transforming, visualizing, modeling and communicating) more effectively. Presenting work that isn’t relevant to addressing the issues in question will not help your grade. Also, rehearse your video and make sure you present clearly and understandably throughout the (admittedly short) presentation. Make clear choices about what to include - that’s key.</p>
+<p>A stronger grade will be associated with doing the tasks we’ve discussed more effectively. Adding a lot of additional and unnecessary analyses/work without editing down to the important issues will not improve your grade, but rather have the opposite effect. We want to see polished, accurate, clear work. Making things clearer is the hardest thing to do, and so it’s the thing that impresses us most.</p>
+</div>
+</div>
+
+<p><img alt="431 Footer" style="border-width:10" src="431_foot2.PNG" height="200" width ="800"/></a> 
+</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
