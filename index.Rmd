@@ -14,7 +14,7 @@ knitr::opts_chunk$set(comment = NA)
 - The [Proposal page](proposal.html) describes the proposal, which you will submit as a part of Lab 04. You can (and should) do all of the work for the Proposal in **September**, and completing it by the end of the month will definitely help you with Quiz 1, and give you an opportunity to get some initial feedback before it's due.
 - [The Analyses page](analyses.html) contains information on the analyses you'll need to include in your final submission after completing the development of your data frame.
 - The [Final Report page](final.html) describes the three elements of the final submission (the report, the video and the self-evaluation) that you will build in **October** and provides submission instructions.
-- [Examples & Tips](examples.html) contains information on sample work and other tips we've prepared to help you find your way through Project A.
+- The Examples & Tips section includes information on sample work and other tips we've prepared to help you find your way through Project A.
 - The top menu also provides links to contact us, and to the 431 home page.
 
 # Project A Overview
