@@ -47,7 +47,7 @@ data_url <- "https://www.countyhealthrankings.org/sites/default/files/media/docu
 chr_2021_raw <- read_csv(data_url, skip = 1)
 ```
 
-2. Read the resulting `.csv` file into R, and call the resulting tibble **chr_2021_raw**. Be sure that this goes as smoothly as possible. You should at this point have 3194 rows and 690 columns.
+2. Read the resulting `.csv` file into R, and call the resulting tibble **chr_2021_raw**. Be sure that this goes as smoothly as possible. You should at this point have 3194 rows and 690 columns. At this stage, you may also want to restrict the data set to only include the 3081 rows which have "county_ranked" values of 1, since the other rows will not be used by us in this project.
 
 ## Task B. **Identify a set of 4-6 states, containing 200-400 counties.** 
 
@@ -56,26 +56,25 @@ Your selection must include:
 - the 88 counties of Ohio, and 
 - all of the counties in a subset of 3-5 additional states in the US
 
-The number of counties associated with each state (specified using its two-letter postal abbreviation code) is listed below, for your convenience. 
+The number of counties (which have `county_ranked` values of 1) associated with each state (specified using its two-letter postal abbreviation code) is listed below, for your convenience. 
 
 - Do not include any state (including the District of Columbia, Connecticut, Delaware, Hawaii, New Hampshire and Rhode Island) with fewer than 12 counties. Those entities are shown in red below.
+- Note that the original version of this image described the 2020 data, which were a little different in the counts of ranked counties for ID, ND, NE, NV, OR and TX.
 
 ![](county_counts.PNG)
 
 So, including `OH`, you will need a total of 200-400 counties, from 4-6 states. For example,
 
-- one possible combination would be the states of `TX` (244 counties), `AZ` (15 counties) and `NM` (32 counties) in addition to `OH` (88 counties), which would yield 379 counties in 4 states
+- one possible combination would be the states of `TX` (243 counties), `AZ` (15 counties) and `NM` (32 counties) in addition to `OH` (88 counties), which would yield 378 counties in 4 states
 - another combination would be the states of `WA` (39 counties), `WI` (72 counties), `WV` (55 counties) and `WY` (23 counties) to join `OH` (88 counties) yielding 277 counties in 5 states
 - and yet another would be `PA` (67), `NY` (62), `NJ` (21), `MD` (24) and `VA` (133) in addition to `OH` (88) yielding 395 counties in 6 states
-
-Since we've studied five Midwestern states (and 437 counties) in Lab 02, we want you to look at a minimum of one state not included in Lab 02. This means your final selection of states (besides Ohio, which you must select) needs to include at least one state other than Indiana, Illinois, Michigan and Wisconsin.
 
 ### Notes
 
 1. Choose your subset of states with the knowledge in mind that some variables in the CHR data are not available for some counties, and that each state you select must have more than 12 counties. 
 2. You should have some reason for selecting the states that you do, and you will need to describe that reason in a complete sentence or two in your proposal and your final report.
 3. Since we've studied five Midwest states (and 437 counties) in Lab 2, we want you to look at a minimum of one state not included in that list, so your final selection of states (besides Ohio) must include at least one state other than Indiana, Illinois, Michigan and Wisconsin.
-4. Don't forget to filter the rows of the tibble so that only those rows with `county_ranked` of 1 are included.
+4. Don't forget to filter the rows of the tibble so that only those rows with `county_ranked` of 1 are included. Otherwise, your counts won't match the image above.
 
 ## Task C. **Identify Your Variables**
 

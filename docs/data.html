@@ -301,7 +301,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>This page was last updated: 2021-09-14 12:05:09.</p>
+<p>This page was last updated: 2021-09-19 09:38:27.</p>
 <div id="what-data-will-i-use" class="section level1">
 <h1>What Data Will I Use?</h1>
 <p>The data set for Project A is now available. The data are the 2021 version of the analytic data from County Health Rankings. In much of what follows, we will abbreviate County Health Rankings as <strong>CHR</strong>. You have already seen some versions of these data in Labs 02 and 03, but you’ll need to generate a new data set of your own for Project A.</p>
@@ -338,7 +338,7 @@ $(document).ready(function () {
 <pre><code>data_url &lt;- &quot;https://www.countyhealthrankings.org/sites/default/files/media/document/analytic_data2021.csv&quot;
 chr_2021_raw &lt;- read_csv(data_url, skip = 1)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Read the resulting <code>.csv</code> file into R, and call the resulting tibble <strong>chr_2021_raw</strong>. Be sure that this goes as smoothly as possible. You should at this point have 3194 rows and 690 columns.</li>
+<li>Read the resulting <code>.csv</code> file into R, and call the resulting tibble <strong>chr_2021_raw</strong>. Be sure that this goes as smoothly as possible. You should at this point have 3194 rows and 690 columns. At this stage, you may also want to restrict the data set to only include the 3081 rows which have “county_ranked” values of 1, since the other rows will not be used by us in this project.</li>
 </ol>
 </div>
 <div id="task-b.-identify-a-set-of-4-6-states-containing-200-400-counties." class="section level2">
@@ -348,25 +348,25 @@ chr_2021_raw &lt;- read_csv(data_url, skip = 1)</code></pre>
 <li>the 88 counties of Ohio, and</li>
 <li>all of the counties in a subset of 3-5 additional states in the US</li>
 </ul>
-<p>The number of counties associated with each state (specified using its two-letter postal abbreviation code) is listed below, for your convenience.</p>
+<p>The number of counties (which have <code>county_ranked</code> values of 1) associated with each state (specified using its two-letter postal abbreviation code) is listed below, for your convenience.</p>
 <ul>
 <li>Do not include any state (including the District of Columbia, Connecticut, Delaware, Hawaii, New Hampshire and Rhode Island) with fewer than 12 counties. Those entities are shown in red below.</li>
+<li>Note that the original version of this image described the 2020 data, which were a little different in the counts of ranked counties for ID, ND, NE, NV, OR and TX.</li>
 </ul>
 <p><img src="county_counts.PNG" /></p>
 <p>So, including <code>OH</code>, you will need a total of 200-400 counties, from 4-6 states. For example,</p>
 <ul>
-<li>one possible combination would be the states of <code>TX</code> (244 counties), <code>AZ</code> (15 counties) and <code>NM</code> (32 counties) in addition to <code>OH</code> (88 counties), which would yield 379 counties in 4 states</li>
+<li>one possible combination would be the states of <code>TX</code> (243 counties), <code>AZ</code> (15 counties) and <code>NM</code> (32 counties) in addition to <code>OH</code> (88 counties), which would yield 378 counties in 4 states</li>
 <li>another combination would be the states of <code>WA</code> (39 counties), <code>WI</code> (72 counties), <code>WV</code> (55 counties) and <code>WY</code> (23 counties) to join <code>OH</code> (88 counties) yielding 277 counties in 5 states</li>
 <li>and yet another would be <code>PA</code> (67), <code>NY</code> (62), <code>NJ</code> (21), <code>MD</code> (24) and <code>VA</code> (133) in addition to <code>OH</code> (88) yielding 395 counties in 6 states</li>
 </ul>
-<p>Since we’ve studied five Midwestern states (and 437 counties) in Lab 02, we want you to look at a minimum of one state not included in Lab 02. This means your final selection of states (besides Ohio, which you must select) needs to include at least one state other than Indiana, Illinois, Michigan and Wisconsin.</p>
 <div id="notes" class="section level3">
 <h3>Notes</h3>
 <ol style="list-style-type: decimal">
 <li>Choose your subset of states with the knowledge in mind that some variables in the CHR data are not available for some counties, and that each state you select must have more than 12 counties.</li>
 <li>You should have some reason for selecting the states that you do, and you will need to describe that reason in a complete sentence or two in your proposal and your final report.</li>
 <li>Since we’ve studied five Midwest states (and 437 counties) in Lab 2, we want you to look at a minimum of one state not included in that list, so your final selection of states (besides Ohio) must include at least one state other than Indiana, Illinois, Michigan and Wisconsin.</li>
-<li>Don’t forget to filter the rows of the tibble so that only those rows with <code>county_ranked</code> of 1 are included.</li>
+<li>Don’t forget to filter the rows of the tibble so that only those rows with <code>county_ranked</code> of 1 are included. Otherwise, your counts won’t match the image above.</li>
 </ol>
 </div>
 </div>
