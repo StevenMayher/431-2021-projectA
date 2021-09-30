@@ -301,7 +301,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>This page was last updated: 2021-09-30 11:35:05.</p>
+<p>This page was last updated: 2021-09-30 15:39:56.</p>
 <p>You will submit a short document to Canvas (both in R Markdown and HTML) providing the answers to a series of questions related to your Data Development work.</p>
 <ul>
 <li>You will need to have completed most (if not all) of the Tasks listed on <a href="data.html">the Data page</a> in order to finish the proposal, but none of the work described on <a href="analysis.html">the Analysis page</a>.</li>
@@ -314,8 +314,8 @@ $(document).ready(function () {
 <p>Your project proposal requires you to create the tibble you plan to use and then send (via Canvas) an R Markdown file and HTML result that contains these five elements:</p>
 <ol style="list-style-type: decimal">
 <li>A sentence or two (perhaps accompanied by a small table of R results) specifying the 4-6 states you chose, and the number of counties you are studying in total and within each state. In an additional sentence or two, provide some motivation for why you chose those states.</li>
-<li>A list of the five variables (including their original raw names and your renamed versions) you are studying, with a clear indication of the cutpoints you chose to create the binary categories out of variable 4 and the multiple categories out of variable 5. Think of this as an early version of what will eventually become your codebook. For each variable, provide a sentence describing your motivation for why this variable was interesting to you.</li>
-<li>A print-out of your cleaned up <code>chr_2020</code> tibble, to prove it is a tibble, with 10 columns (variables) and 200-400 rows (counties). No writing is required here - just the result of the code.</li>
+<li>A list of the five variables (including their original raw names and your renamed versions) you are studying, with a clear indication of the cutpoints you chose to create the binary categories out of variable 4 and the multiple categories out of variable 5. Think of this as an early version of what will eventually become your codebook (later you’ll include more information.) For each variable, provide a sentence describing your motivation for why this variable was interesting to you.</li>
+<li>A print-out of your cleaned up <code>chr_2020</code> tibble, to prove it is a tibble, with 11 columns (variables, including the <code>fipscode</code>) and 200-400 rows (counties). No writing is required here - just the result of the code.</li>
 <li>The <code>Hmisc::describe</code> result for your <code>chr_2020</code> tibble. As in element 3, code alone is sufficient for this element.</li>
 <li>In a paragraph, describe the most challenging (or difficult) part of completing the work so far, and how you were able to overcome whatever it was that was difficult.</li>
 </ol>
@@ -403,13 +403,14 @@ $(document).ready(function () {
 <li>You clearly specify which variable will be treated as a binary categorical variable, and which will be treated as a multi-categorical variable, specifying how many categories will be used, and why you made the choices you did about splitting those variables into categories.</li>
 <li>For each of your quantitative variables (outcome and the two predictors) you specify their units in appropriate language drawn from the measure specifications at County Health Rankings.</li>
 <li>You specify all variables using the name you will use in your final tibble, the <code>vXXX</code> code from the original data, and show that you have some understanding of what the variable means, how it was collected and why it is important in your sentences surrounding your codebook.</li>
+<li>We’re not going to worry here about the <code>fipscode</code>: if you’ve included it, you’ll have eleven variables. If not, you’ll have ten. Either is fine.</li>
 </ul></li>
 <li><p>The results of your missingness check and your # of distinct values check are clear, and meet the specifications described in the instructions.</p>
 <ul>
 <li>You’ve written a sentence (at least) in response to the results of each check that makes sense.</li>
 </ul></li>
 <li><p>You’ve printed your final tibble by typing in its name, and it appears as a tibble.</p></li>
-<li><p><code>Hmisc::describe</code> results for your final set of 10 variables, with minimum and maximum values that make sense, and that show the correct number of counties and states.</p></li>
+<li><p><code>Hmisc::describe</code> results for your final set of either 10 or 11 variables, with minimum and maximum values that make sense, and that show the correct number of counties and states. You’d have 11 variables if you included the <code>fipscode</code> but we won’t worry much about that in the proposal.</p></li>
 <li><p>Your response to question 5 is a paragraph (or more) written in English, with attention paid to grammar, syntax and spelling.</p>
 <ul>
 <li>It is clear to us what your biggest issue was, and how you tried to address it.</li>

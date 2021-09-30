@@ -29,10 +29,10 @@ These files are also available in the [data folder for Project A](https://github
 Cleaning the data will be a time-consuming effort, but the good news is that you can begin it immediately. Before you complete any of the required analyses in R, you'll need to complete the following steps.
 
 1. Ingest the data into R. You'll need to remove the top row from the .csv, and you can do that either inside or outside of R.
-2. Select variables (at this stage, there will be 3 required variables, plus 5 additional variables you select, for a total of 8) that you actually need to use and rename them into useful formats instead of the default names provided by CHR. Save the result in your analytic tibble, which should be called **chr_2021**.
+2. Select variables (at this stage, there will be 4 required variables, plus 5 additional variables you select, for a total of 9) that you actually need to use and rename them into useful formats instead of the default names provided by CHR. Save the result in your analytic tibble, which should be called **chr_2021**.
 3. Filter your **chr_2021** file so that it contains only the subset of observations (counties) that you actually want to study. Note that each of these counties will have to have a `county_ranked` value of 1. You will be working with a subset of the available `state`s, which should include the 88 counties of Ohio, plus counties from 3-5 other states you will select.  
-4. Make some transformations to obtain categorical versions (factors) of two of your selected variables and add them to your **chr_2021** tibble. Retain the original versions of those two variables, too, so that you wind up with 10 variables in total.
-5. Your final **chr_2021** tibble will therefore contain 200-400 rows (counties) and 10 variables. Eventually, you'll save this tibble as an R data frame.
+4. Make some transformations to obtain categorical versions (factors) of two of your selected variables and add them to your **chr_2021** tibble. Retain the original versions of those two variables, too, so that you wind up with 11 variables in total.
+5. Your final **chr_2021** tibble will therefore contain 200-400 rows (counties) and 11 variables. Eventually, you'll save this tibble as an R data frame.
 
 # Data Development Task List
 

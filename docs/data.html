@@ -301,7 +301,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>This page was last updated: 2021-09-30 11:35:00.</p>
+<p>This page was last updated: 2021-09-30 15:39:50.</p>
 <div id="what-data-will-i-use" class="section level1">
 <h1>What Data Will I Use?</h1>
 <p>The data set for Project A is now available. The data are the 2021 version of the analytic data from County Health Rankings. In much of what follows, we will abbreviate County Health Rankings as <strong>CHR</strong>. You have already seen some versions of these data in Labs 02 and 03, but you’ll need to generate a new data set of your own for Project A.</p>
@@ -320,11 +320,11 @@ $(document).ready(function () {
 <p>Cleaning the data will be a time-consuming effort, but the good news is that you can begin it immediately. Before you complete any of the required analyses in R, you’ll need to complete the following steps.</p>
 <ol style="list-style-type: decimal">
 <li>Ingest the data into R. You’ll need to remove the top row from the .csv, and you can do that either inside or outside of R.</li>
-<li>Select variables (at this stage, there will be 3 required variables, plus 5 additional variables you select, for a total of 8) that you actually need to use and rename them into useful formats instead of the default names provided by CHR. Save the result in your analytic tibble, which should be called <strong>chr_2021</strong>.</li>
+<li>Select variables (at this stage, there will be 4 required variables, plus 5 additional variables you select, for a total of 9) that you actually need to use and rename them into useful formats instead of the default names provided by CHR. Save the result in your analytic tibble, which should be called <strong>chr_2021</strong>.</li>
 <li>Filter your <strong>chr_2021</strong> file so that it contains only the subset of observations (counties) that you actually want to study. Note that each of these counties will have to have a <code>county_ranked</code> value of 1. You will be working with a subset of the available <code>state</code>s, which should include the 88 counties of Ohio, plus counties from 3-5 other states you will select.<br />
 </li>
-<li>Make some transformations to obtain categorical versions (factors) of two of your selected variables and add them to your <strong>chr_2021</strong> tibble. Retain the original versions of those two variables, too, so that you wind up with 10 variables in total.</li>
-<li>Your final <strong>chr_2021</strong> tibble will therefore contain 200-400 rows (counties) and 10 variables. Eventually, you’ll save this tibble as an R data frame.</li>
+<li>Make some transformations to obtain categorical versions (factors) of two of your selected variables and add them to your <strong>chr_2021</strong> tibble. Retain the original versions of those two variables, too, so that you wind up with 11 variables in total.</li>
+<li>Your final <strong>chr_2021</strong> tibble will therefore contain 200-400 rows (counties) and 11 variables. Eventually, you’ll save this tibble as an R data frame.</li>
 </ol>
 </div>
 <div id="data-development-task-list" class="section level1">
