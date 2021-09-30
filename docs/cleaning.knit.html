@@ -11,7 +11,7 @@
 
 
 
-<title>Project Proposal Example</title>
+<title>Cleaning Your Variables</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -32,8 +32,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -296,23 +294,308 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Project Proposal Example</h1>
+<h1 class="title toc-ignore">Cleaning Your Variables</h1>
 
 </div>
 
 
-<p>This page was last updated: 2021-09-30 11:35:01.</p>
-<div id="project-proposal-example-using-2019-data" class="section level2">
-<h2>Project Proposal Example using 2019 Data</h2>
-<p>Dr. Love has completed an R Markdown file and compiled it into an HTML result which you can view now, and which he <strong>strongly</strong> encourages you to use in developing your own proposal. The files may be found in <a href="https://github.com/THOMASELOVE/431-2021/blob/main/projectA/README.md">our Github Repository</a></p>
+<p>This page was last updated: 2021-09-19 09:38:25.</p>
+<p>Check your five variables on the lists below. You should find all five.</p>
 <ul>
-<li>Dr. Love’s <a href="https://github.com/THOMASELOVE/431-2021/blob/main/projectA/love-example-projectA-proposal.Rmd">R Markdown file</a> is a strong starting point for the development of your proposal.
-<ul>
-<li>Remember to click Raw if you want to download the R Markdown file from that link.</li>
-<li>This file is also part of the <a href="https://github.com/THOMASELOVE/431-data">431-data repository</a> we’ve used for labs and other data and code, so you can also get it from there.</li>
-</ul></li>
-<li>The resulting HTML file can be viewed at <a href="https://rpubs.com/TELOVE/projectA-proposal-example-431-2021" class="uri">https://rpubs.com/TELOVE/projectA-proposal-example-431-2021</a>, which may be easier for you to read and will also show you what your final result should look like.</li>
+<li>If you plan to use the variable as quantitative, do what is suggested as part of your data development work, and use that version in your codebook.</li>
+<li>If you plan to use the variable as a categorical predictor, keep with what you did before for that variable, unless you prefer to make a change as indicated below.</li>
 </ul>
+<div id="variables-that-are-proportions-should-be-converted-to-percentages" class="section level2">
+<h2>Variables that are Proportions should be converted to Percentages</h2>
+<p>Each of the variables listed below are proportions (between 0 and 1). Before you use them in any analyses, we encourage you strongly to multiply them by 100 in your data development (using mutate) to turn their values into percentages (between 0 and 100) and this will seriously ease the interpretation of slopes and transformations for these variables.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Code</th>
+<th>Variable Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">v002</td>
+<td>Poor or fair health</td>
+</tr>
+<tr class="even">
+<td align="right">v003</td>
+<td>Uninsured adults (pick v003 or v085, but not both)</td>
+</tr>
+<tr class="odd">
+<td align="right">v009</td>
+<td>Adult smoking</td>
+</tr>
+<tr class="even">
+<td align="right">v011</td>
+<td>Adult obesity</td>
+</tr>
+<tr class="odd">
+<td align="right">v021</td>
+<td>High school graduation</td>
+</tr>
+<tr class="even">
+<td align="right">v023</td>
+<td>Unemployment</td>
+</tr>
+<tr class="odd">
+<td align="right">v024</td>
+<td>Children in poverty</td>
+</tr>
+<tr class="even">
+<td align="right">v037</td>
+<td>Low birthweight</td>
+</tr>
+<tr class="odd">
+<td align="right">v049</td>
+<td>Excessive drinking</td>
+</tr>
+<tr class="even">
+<td align="right">v052</td>
+<td>Proportion below 18 years of age</td>
+</tr>
+<tr class="odd">
+<td align="right">v057</td>
+<td>Proportion Females</td>
+</tr>
+<tr class="even">
+<td align="right">v058</td>
+<td>Proportion Rural</td>
+</tr>
+<tr class="odd">
+<td align="right">v059</td>
+<td>Proportion not proficient in English</td>
+</tr>
+<tr class="even">
+<td align="right">v060</td>
+<td>Diabetes prevalence</td>
+</tr>
+<tr class="odd">
+<td align="right">v067</td>
+<td>Driving alone to work</td>
+</tr>
+<tr class="even">
+<td align="right">v069</td>
+<td>Some college</td>
+</tr>
+<tr class="odd">
+<td align="right">v070</td>
+<td>Physical inactivity</td>
+</tr>
+<tr class="even">
+<td align="right">v082</td>
+<td>Children in single-parent households</td>
+</tr>
+<tr class="odd">
+<td align="right">v083</td>
+<td>Limited access to healthy foods</td>
+</tr>
+<tr class="even">
+<td align="right">v085</td>
+<td>Uninsured (pick v003 or v085, but not both)</td>
+</tr>
+<tr class="odd">
+<td align="right">v122</td>
+<td>Uninsured children (pick v085 or v122, but not both)</td>
+</tr>
+<tr class="even">
+<td align="right">v132</td>
+<td>Access to exercise opportunities</td>
+</tr>
+<tr class="odd">
+<td align="right">v136</td>
+<td>Severe housing problems</td>
+</tr>
+<tr class="even">
+<td align="right">v139</td>
+<td>Food insecurity</td>
+</tr>
+<tr class="odd">
+<td align="right">v143</td>
+<td>Insufficient sleep</td>
+</tr>
+<tr class="even">
+<td align="right">v144</td>
+<td>Frequent physical distress (pick v036 or v144, but not both)</td>
+</tr>
+<tr class="odd">
+<td align="right">v145</td>
+<td>Frequent mental distress (pick v042 or v145, but not both)</td>
+</tr>
+<tr class="even">
+<td align="right">v153</td>
+<td>Homeownership</td>
+</tr>
+<tr class="odd">
+<td align="right">v155</td>
+<td>Flu vaccinations</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="ratios-that-need-converting" class="section level2">
+<h2>Ratios That Need Converting</h2>
+<p>These two variables are specified as providers per population in the raw data. You will want to multiply the values by 100,000 in order to providers per 100,000 population and get more interpretable results.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Code</th>
+<th>Variable Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">v004</td>
+<td>Primary care physicians</td>
+</tr>
+<tr class="even">
+<td align="right">v062</td>
+<td>Mental health providers</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="demographics-that-need-attention" class="section level2">
+<h2>Demographics that need attention</h2>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="36%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Code</th>
+<th>Variable Description</th>
+<th>What to do?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">v001</td>
+<td>Premature death</td>
+<td>Consider dividing by 100 to represent losses per 1000 population</td>
+</tr>
+<tr class="even">
+<td align="right">v063</td>
+<td>Median household income</td>
+<td>Divide by 1000 to represent in thousands of dollars</td>
+</tr>
+<tr class="odd">
+<td align="right">v051</td>
+<td>Population</td>
+<td>Either use log10(population), or divide population by 1000 to represent population in thousands.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="variables-that-should-be-ok-as-is" class="section level2">
+<h2>Variables that should be OK as is</h2>
+<p>The variables listed below should be fine as they are. Most of them are ratios, although a few are averages or indexes. The main issue for these variables is correctly specifying the units of measurement (note that the indexes don’t have units.)</p>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="91%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Code</th>
+<th>Variable Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">v005</td>
+<td>Preventable hospital stays</td>
+</tr>
+<tr class="even">
+<td align="right">v014</td>
+<td>Teen births</td>
+</tr>
+<tr class="odd">
+<td align="right">v036</td>
+<td>Poor physical health days (pick v036 or v144, but not both)</td>
+</tr>
+<tr class="even">
+<td align="right">v039</td>
+<td>Motor vehicle crash deaths</td>
+</tr>
+<tr class="odd">
+<td align="right">v042</td>
+<td>Poor mental health days (pick v042 or v145, but not both)</td>
+</tr>
+<tr class="even">
+<td align="right">v043</td>
+<td>Violent crime</td>
+</tr>
+<tr class="odd">
+<td align="right">v044</td>
+<td>Income inequality</td>
+</tr>
+<tr class="even">
+<td align="right">v045</td>
+<td>Sexually transmitted infections</td>
+</tr>
+<tr class="odd">
+<td align="right">v125</td>
+<td>Air pollution - particulate matter</td>
+</tr>
+<tr class="even">
+<td align="right">v127</td>
+<td>Premature age-adjusted mortality</td>
+</tr>
+<tr class="odd">
+<td align="right">v128</td>
+<td>Child mortality</td>
+</tr>
+<tr class="even">
+<td align="right">v133</td>
+<td>Food environment index</td>
+</tr>
+<tr class="odd">
+<td align="right">v135</td>
+<td>Injury deaths</td>
+</tr>
+<tr class="even">
+<td align="right">v140</td>
+<td>Social associations</td>
+</tr>
+<tr class="odd">
+<td align="right">v141</td>
+<td>Residential segregation - Black/White (pick v141 or v142, not both)</td>
+</tr>
+<tr class="even">
+<td align="right">v142</td>
+<td>Residential segregation - non-White/White (pick v141 or v142, not both)</td>
+</tr>
+<tr class="odd">
+<td align="right">v147</td>
+<td>Life expectancy</td>
+</tr>
+<tr class="even">
+<td align="right">v148</td>
+<td>Firearm fatalities</td>
+</tr>
+<tr class="odd">
+<td align="right">v156</td>
+<td>Traffic volume</td>
+</tr>
+<tr class="even">
+<td align="right">v159</td>
+<td>Reading scores</td>
+</tr>
+<tr class="odd">
+<td align="right">v160</td>
+<td>Math scores</td>
+</tr>
+<tr class="even">
+<td align="right">v161</td>
+<td>Suicides</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 <p><img alt="431 Footer" style="border-width:10" src="431_foot2.PNG" height="200" width ="800"/></a> 

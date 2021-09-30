@@ -36,7 +36,7 @@ Cleaning the data will be a time-consuming effort, but the good news is that you
 
 # Data Development Task List
 
-Here are some of the necessary details for each step of this process. Please refer to Dr. Love's materials in the Project A [Examples](examples.html) section for more help.
+Here are some of the necessary details for each step of this process. Please refer to Dr. Love's materials in the Project A Examples and Tips section for more help.
 
 ## Task A. **Ingest the CHR Data into a tibble**
 
