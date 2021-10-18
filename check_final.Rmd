@@ -18,7 +18,7 @@ This list is not comprehensive. These aren't the only things that Dr. Love and t
 7. There are no warnings in the HTML document.
 8. The project uses **read_csv** to read in the data, and **message = FALSE** is used to suppress the message about column specifications there.
 9. **message = FALSE** is also used to suppress the message created when running something from the mosaic package (usually favstats) for the first time.
-10. The headings and subheadings (so things like 1 and 1.1) of the entire Project A document are numbered, appear in the table of contents, and contain no misspelled words.
+10. The headings and subheadings (so things like 1 and 1.1) of the entire Project A document are numbered automatically (use **number_sections: TRUE** in the YAML), appear in the table of contents, and contain no misspelled words.
 11. The headings and first-level subheadings in the outline for Project A Analyses 1, 2, and 3 are used as they are shown in [Professor Love's outline](exampleB.html).
 12. Professor Love's instructions contained in the outline are NOT repeated in your HTML.
 13. The function **summary()** as applied to a tibble does not appear in your HTML.
