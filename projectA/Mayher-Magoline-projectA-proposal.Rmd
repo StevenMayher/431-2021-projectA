@@ -192,6 +192,10 @@ So far, the most difficult part of completing the work so far was actually arran
 
 Scheduling and technical difficulties aside, the most difficult aspect of the project was actually developing a title (and in extension a focus) for the project that fit the variables we wanted to analyze. While we were interested in analyzing income inequality as an outcome from the beginning, we admittedly cycled out several different variables for the rest of our choices that we initially wanted to use, but couldn't properly unify under a concise but focused title (such as `poor_or_fair_health`, `premature_age_adjusted_mortality`, and `insufficient_sleep` just to name a few). To solve our problem, we decided to first come up with an appropriate name for our study, and then use that as direction to help us determine what variables we should choose to use in our study.
 
+# Analyses
+
+## Analysis 1
+
 # Session Information
 
 ```{r}
