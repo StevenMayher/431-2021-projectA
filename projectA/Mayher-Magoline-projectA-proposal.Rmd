@@ -1,0 +1,205 @@
+---
+title: "The Effects of College Education and Environmental Factors on Income Inequality"
+author: "Steven Mayher & Anna Magoline"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections: TRUE
+---
+
+# Preliminaries
+
+```{r setup, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="100")
+opts_chunk$set(comment=NA)
+opts_knit$set(width=75)
+```
+
+## My R Packages
+
+```{r load_packages_here, message = FALSE}
+library(janitor)
+library(magrittr)
+library(naniar)
+library(tidyverse)
+```
+
+## Data Ingest
+
+```{r read_in_data_here, message = FALSE}
+data_url <- "https://www.countyhealthrankings.org/sites/default/files/media/document/analytic_data2021.csv"
+chr_2021_raw <- read_csv(data_url, skip = 1)
+```
+
+# Data Development
+
+## Selecting My Data
+
+```{r}
+chr_2021 <- chr_2021_raw %>%
+    filter(county_ranked == 1) %>%
+    filter(state %in% c("OH", "MI", "PA", "NY", "CA", "WA")) %>%
+    select(fipscode, state, county,
+           v044_rawvalue, v069_rawvalue, v153_rawvalue, 
+           v154_rawvalue, v166_rawvalue) %>%
+    rename(income_inequality = v044_rawvalue,
+           some_college = v069_rawvalue,
+           homeownership = v153_rawvalue,
+           severe_housing_cost_burden = v154_rawvalue,
+           broadband_access = v166_rawvalue) %>%
+    mutate(some_college = 100*some_college,
+           homeownership = 100*homeownership,
+           severe_housing_cost_burden = 100*severe_housing_cost_burden,
+           broadband_access = 100*broadband_access)
+```
+
+## Repairing the `fipscode` and factoring the `state`
+
+```{r}
+chr_2021 <- chr_2021 %>%
+    mutate(fipscode = str_pad(fipscode, 5, pad = "0"),
+           state = factor(state))
+```
+
+## Creating Binary Categorical Variables
+
+Accomplished by splitting `severe_housing_cost_burden` into two categories based on the variable's median:
+
+```{r, message = FALSE}
+chr_2021 <- chr_2021 %>%
+    mutate(severe_housing_cost_burden_cat = case_when(
+                   severe_housing_cost_burden < median(severe_housing_cost_burden) ~ "low",
+                   TRUE ~ "high"),
+           severe_housing_cost_burden_cat = factor(severe_housing_cost_burden_cat))
+
+mosaic::favstats(severe_housing_cost_burden ~ severe_housing_cost_burden_cat, data = chr_2021) %>% 
+    kable(digits = 3)
+```
+
+## Creating Multi-Category Variables
+
+### Creating a Five-Category Variable
+
+```{r}
+chr_2021 <- chr_2021 %>%
+    mutate(temp3 = factor(Hmisc::cut2(broadband_access, g = 5)))
+
+chr_2021 <- chr_2021 %>%
+    mutate(broadband_access_cat = fct_recode(temp3,
+                                   "1_lowest" = "[55.6,75.2)",
+                                   "2_low" = "[75.2,78.7)",
+                                   "3_middle" = "[78.7,81.3)",
+                                   "4_high" = "[81.3,84.7)",
+                                   "5_highest" = "[84.7,93.3]"))
+chr_2021 <- chr_2021 %>%
+    select(-c(temp3))
+
+mosaic::favstats(broadband_access ~ broadband_access_cat, data = chr_2021) %>% 
+    kable(digits = 3)
+```
+
+## Structure of My Tibble
+
+```{r}
+str(chr_2021)
+```
+
+# Codebook
+
+## Proposal Requirement 1 - State Selection Explanation
+
+The states that were chosen for this project are California, Washington, New York, Pennsylvania, Michigan, and Ohio. These states in particular were selected to create representative samples of three different regions of the United States - the northeast (New York and Pennsylvania), the midwest (Ohio and Michigan), and the west (California and Washington). While it is beyond the scope of this project, it could be interesting to examine how income inequality is affected by the selected variables in these different regions, so two representative states for each region were selected such that the final selection fit these and the project's other constraints (200 - 400 ranked counties, Ohio mandatory). The regions were determined by referencing the US gov census regions, as identified from the pdf on their official website: 
+
+https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf
+
+## Proposal Requirement 2 - List and Describe the 5 Selected Variables
+
+Variable | Description
+--------- | ------------------------------------------------
+fipscode | FIPS code
+state | State: my six states are CA, WA, NY, PA, OH, MI
+county | County Name
+income_inequality | (v044) Income Inequality, which will be my **outcome**
+some_college | (v069) Some College Education Rate
+homeownership | (v153) Homeownership Rate
+severe_housing_cost_burden | (v154) Severe Housing Cost Burden Rate
+broadband_access | (v166) Broadband Access Rate
+severe_housing_cost_burden_cat | 2 levels: low = severe_housing_cost_burden below 11.5%, or high
+broadband_access_cat | 5 levels: lowest = broadband_access below 75%, lower = between 75% and 78.6%, middle = between 78.6% and 81%, higher = between 81% and 84.6%, or highest = 84.6% or above
+
+
+- `income_inequality` was originally variable `v044_rawvalue`, and is listed in the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It describes the ratio of households with a household income at the 80th percentile compared to household income at the 20th percentile for each county. The higher the value is, the greater the difference between 80th percentile median income and 20th percentile median income for that county. It is based on data from the American Community Survey's 5-year estimates from 2015-19. This will be my **outcome** variable. This variable was interesting to us because, again while it may be beyond the scope of the project itself, there could be disparities in income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line.
+
+- `some_college` was originally variable `v069_rawvalue`, and is listed under the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of adults per county that are between 25-44 years old and possess some post-secondary education. The higher the number, the greater the proportion of people there are in the 25-44 year old age group in the specified county that possess some level of post-secondary education. It is based on data from the American Community Survey's 5-year estimates from 2015-19.
+
+- `homeownership` was originally variable `v153_rawvalue`, and is listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of housing units that are occupied in the given county. The higher the proportion, the greater the number of occupied housing units in the associated county, and it is based on the data from the American Community Survey's 5-year estimates from 2015-19.
+
+- `severe_housing_cost_burden` was originally `v154_rawvalue`, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households that spend 50% or more of their household income on housing. The higher the proportion, the greater the proportion of the associated county's population pays 50% or more of their household income on housing costs. It is based on the data from the American Community Survey's 5-year estimates from 2015-19, and this variable was selected to be the **binary categorical variable** using the median value(s) as the cut point for the creation of the binary categorical.
+
+- `broadband_access` was originally variable `v166_rawvalue`, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households with broadband internet connection in the associated county. The higher the value, the greater the proportion of the associated county's population has broadband internet access from their own households. It is based on the data from the American Community Survey's 5-year estimates from 2015-19, and this variable was selected to be the **multi-categorical variable** for this project. It was selected to have five different categories, which were created from four cut points that produce five mutually exclusive and collectively exhaustive categories from the variable's data.
+
+- We selected the `some_college`, `homeownership`, `severe_housing_cost_burden`, and  `broadband_access` variables to be our analysis variables because they fit within our focus that we determined when creating our title/focus for our project, and while it may be beyond the scope of the project itself, there could be disparities between these variables' relationships with income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line to analyze the results of this project in this manner.
+
+## Proposal Requirement 3 - Print the Tibble
+
+```{r}
+chr_2021
+```
+
+## Proposal Requirement 4 - Show the Final Data Set Details
+
+```{r}
+Hmisc::describe(chr_2021)
+```
+
+## Three Important Checks
+
+- Do we have any missing data? The `miss_var_summary()` check below illustrates that we do not.
+
+```{r}
+chr_2021 %>% 
+    miss_var_summary()
+```
+
+- Do the raw versions of each of the five selected variables have at least 10 distinct non-missing values? The `summarize(across())` check below illustrates that we have 397 non-missing values, which matches what we'd expect given the total number of ranked counties from our selected states.
+
+```{r}
+chr_2021 %>% 
+    summarize(across(income_inequality:broadband_access, ~ n_distinct(.)))
+```
+
+- For each of the categorical variables created, every level of the resulting factor must include at least 10 counties. The check below illustrates that our binary categorical has 198 - 199 in each category, and our multi-categorical has 79 - 80 in each category.
+
+```{r}
+chr_2021 %>% tabyl(severe_housing_cost_burden_cat)
+chr_2021 %>% tabyl(broadband_access_cat)
+```
+
+## Saving the Tibble
+
+```{r}
+saveRDS(chr_2021, file = "chr_2021_Steven_Mayher_and_Anna_Magoline.Rds")
+```
+
+## Proposal Requirement 5 - The Most Difficult Part(s) So Far
+
+So far, the most difficult part of completing the work so far was actually arranging time to sit down and work on it together on the project. The two of us have challenging schedules, and because of the nature of the project, without sitting down to discuss it, it became difficult to get the project up off of the ground. Additionally, without a shared means of working on the markdown file, only one of us could work on it at a time, even if we placed the file on a shared drive. While we're still working out our scheduling to ensure that we both get to sit down and discuss the project steps at length and ensure we're on the same page, we have investigated the use of GitHub for hosting our project code, so that we can both work with the file simultaneously. We will use this moving forward to streamline our workflow, and we intend to continue to work through our scheduling issues as well.
+
+Scheduling and technical difficulties aside, the most difficult aspect of the project was actually developing a title (and in extension a focus) for the project that fit the variables we wanted to analyze. While we were interested in analyzing income inequality as an outcome from the beginning, we admittedly cycled out several different variables for the rest of our choices that we initially wanted to use, but couldn't properly unify under a concise but focused title (such as `poor_or_fair_health`, `premature_age_adjusted_mortality`, and `insufficient_sleep` just to name a few). To solve our problem, we decided to first come up with an appropriate name for our study, and then use that as direction to help us determine what variables we should choose to use in our study.
+
+# Analyses
+
+## Analysis 1
+
+# Session Information
+
+```{r}
+sessionInfo()
+```
+
+
