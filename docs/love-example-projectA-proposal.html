@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="YOUR NAME HERE" />
+
+<meta name="date" content="2021-10-31" />
+
+<title>YOUR PROJECT A TITLE</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">431 Project A</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="data.html">Data</a>
+</li>
+<li>
+  <a href="proposal.html">The Proposal</a>
+</li>
+<li>
+  <a href="analyses.html">Analyses</a>
+</li>
+<li>
+  <a href="final.html">Final Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Examples &amp; Tips
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exampleA.html">Project Proposal Example</a>
+    </li>
+    <li>
+      <a href="exampleB.html">Outline of Analysis Section</a>
+    </li>
+    <li>
+      <a href="check_final.html">Final Report Checklist</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://thomaselove.github.io/431/contact.html">Contact Us</a>
+</li>
+<li>
+  <a href="https://thomaselove.github.io/431/">431 Homepage</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">YOUR PROJECT A TITLE</h1>
+<h4 class="author">YOUR NAME HERE</h4>
+<h4 class="date">2021-10-31</h4>
+
+</div>
+
+
+<div id="note-to-students" class="section level2">
+<h2>Note to Students</h2>
+<p>This proposal includes a lot of description from Dr. Love about what he’s doing and what’s happening in the R code chunks that <strong>should not</strong> be included in your proposal (as an example, this whole section shouldn’t be in your proposal.) It also doesn’t include several things that you will need to include in your proposal. Think of this document as an annotated starting point for thinking about developing your proposal, rather than as a rigid template that just requires you to fill in a few gaps. There is still a lot of work for you to do. Your job in building your proposal requires you to (at a minimum):</p>
+<ol style="list-style-type: decimal">
+<li>adapt the code provided here to address your own decisions and requirements (more than just filling in your title and name, although that’s an important thing to do.)</li>
+<li>edit what is provided here so that you wind up only including things that are appropriate for your project</li>
+<li>write your own descriptions of the states/measures you’re using and the results you obtain (which Dr. Love has mostly left out of this document.)</li>
+<li>knit the R Markdown document into an HTML or PDF report, and then proofreading and spell-checking all of your work before you submit it.</li>
+</ol>
+<p>You should be certain you have a real title and author list in this file.</p>
+</div>
+<div id="preliminaries" class="section level1">
+<h1>Preliminaries</h1>
+<div id="my-r-packages" class="section level2">
+<h2>My R Packages</h2>
+<pre class="r"><code>library(janitor)
+library(magrittr)
+library(naniar)
+library(tidyverse)</code></pre>
+<p>Note that I have loaded the <code>tidyverse</code> last, and that I have not loaded any of the <code>tidyverse</code> packages individually. We’ll be checking to see that you’ve done this properly. These are the three packages that Dr. Love has used in preparing this proposal, and don’t include packages (like patchwork and broom, for instance) that he almost certainly would need to use in his analyses, yet. The final project itself should include all packages that get used.</p>
+</div>
+<div id="data-ingest" class="section level2">
+<h2>Data Ingest</h2>
+<p>Note that Dr. Love is working here with 2019 data, rather than 2021, as you’ll use. The <code>guess_max</code> result ensures that <code>read_csv</code> will look through the entire data set (which has less than 4000 rows) instead of just the first 1000 rows (which is the default.)</p>
+<p>The code below actually loads in the data from County Health Rankings directly, using the 2019 period.</p>
+<pre class="r"><code>data_url &lt;- &quot;https://www.countyhealthrankings.org/sites/default/files/media/document/analytic_data2019.csv&quot;
+chr_2019_raw &lt;- read_csv(data_url, skip = 1, guess_max = 4000)</code></pre>
+<p>Note that you’ll need a different <code>data_url</code> (listed below) for the 2021 data, as specified in the project instructions.</p>
+</div>
+</div>
+<div id="data-development" class="section level1">
+<h1>Data Development</h1>
+<div id="selecting-my-data" class="section level2">
+<h2>Selecting My Data</h2>
+<p>I’ll be selecting data from the six “states” (Washington DC, Delaware, Connecticut, Hawaii, New Hampshire and Rhode Island) that are not available to you (because they each have only a few counties: in total there are just 31 counties in those six states.) Note that in your work, you will include Ohio, and other states, but all of the states I’ve selected are not available to you. Also, you’ll have to describe a reason why you selected your group of states, which I’ll skip here.</p>
+<p>I’ve selected five variables (v147, v145, v021, v023 and v139) which I’ll describe shortly. You will make your own choices, of course, and you’ll need to provide more information on each variable in a codebook.</p>
+<p>To help you think about the chunk of code below, note that the code below does the following things:</p>
+<ol style="list-style-type: decimal">
+<li>Filter the data to the actual counties that are ranked in the Rankings (this eliminates state and USA totals, mainly.)</li>
+<li>Filter to the states we’ve selected (the <code>%in%</code> command lets us include any state that is in the list we then create with the c() function).</li>
+<li>Select the variables that we’re going to use in our study, including the three mandatory variables (fipscode, state and county).</li>
+<li>Rename the five variables we’ve selected with more meaningful names. These names are motivated by the actual meaning of the variables, as shown in the top row (that we deleted) in the original csv, the PDF files I’ve included for you, and the more detailed variable descriptions on the County Health Ranking site.</li>
+<li>Four of the five variables I’ve selected are listed as proportions, and we’d like them instead to be percentages, so I’ll rescale those, as well.</li>
+</ol>
+<pre class="r"><code>chr_2019 &lt;- chr_2019_raw %&gt;%
+    filter(county_ranked == 1) %&gt;%
+    filter(state %in% c(&quot;DC&quot;, &quot;DE&quot;, &quot;CT&quot;, &quot;HI&quot;, &quot;NH&quot;, &quot;RI&quot;)) %&gt;%
+    select(fipscode, state, county, 
+           v147_rawvalue, v145_rawvalue, v021_rawvalue, 
+           v023_rawvalue, v139_rawvalue) %&gt;%
+    rename(life_expectancy = v147_rawvalue,
+           freq_mental_distress = v145_rawvalue,
+           hsgraduation = v021_rawvalue,
+           unemployment = v023_rawvalue,
+           food_insecurity = v139_rawvalue) %&gt;%
+    mutate(freq_mental_distress = 100*freq_mental_distress,
+           hsgraduation = 100*hsgraduation,
+           unemployment = 100*unemployment,
+           food_insecurity = 100*food_insecurity)</code></pre>
+</div>
+<div id="repairing-the-fipscode-and-factoring-the-state" class="section level2">
+<h2>Repairing the <code>fipscode</code> and factoring the <code>state</code></h2>
+<p>The <code>fipscode</code> is just a numerical code, and not a meaningful number (so that, for instance, calculating the mean of <code>fipscode</code> would make no sense.) To avoid confusion later, it’s worth it to tell R to treat <code>fipscode</code> as a character variable, rather than a double-precision numeric variable.</p>
+<p>But there’s a problem with doing this, as R has already missed the need to pull in some leading zeros (the FIPS code is a 5-digit number which identifies a state (with the first two digits) and then a county (with the remaining three digits) but by reading the <code>fipscode</code> in as a numeric variable, some of the values you wind up with will be from states that need an opening zero in order to get to five digits total.)</p>
+<p>We can fix this by applying a function from the <code>stringr</code> package (part of the tidyverse,) which will both add a “zero” to any fips code with less than 5 digits, but will also turn <code>fipscode</code> into a character variable, which is a better choice for a numeric code.</p>
+<p>It will also be helpful later to include <code>state</code> as a factor variable, rather than a character.</p>
+<p>We can accomplish these two tasks with the following chunk of code.</p>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(fipscode = str_pad(fipscode, 5, pad = &quot;0&quot;),
+           state = factor(state))</code></pre>
+<p>You can certainly use <code>as.factor</code> instead of <code>factor</code> here if you like. If you wish to arrange the levels of your <code>states</code> factor in an order other than alphabetically by postal abbreviation (perhaps putting Ohio first or something), then you could do so with <code>fct_recode()</code>, but I won’t do that here.</p>
+<div id="checking-initial-work" class="section level3">
+<h3>Checking Initial Work</h3>
+<p>Given the “states” I selected, I should have 31 rows, since there are 31 counties across those states, and I should have 8 variables. It’s also helpful to glimpse through the data and be sure nothing strange has happened in terms of what the first few values look like. Note the leading zeros in <code>fipscode</code> (and that it’s now a character variable) and that <code>state</code> is now a factor, as we’d hoped.</p>
+<pre class="r"><code>glimpse(chr_2019)</code></pre>
+<pre><code>Rows: 31
+Columns: 8
+$ fipscode             &lt;chr&gt; &quot;09001&quot;, &quot;09003&quot;, &quot;09005&quot;, &quot;09007&quot;, &quot;09009&quot;, &quot;090~
+$ state                &lt;fct&gt; CT, CT, CT, CT, CT, CT, CT, CT, DE, DE, DE, DC, H~
+$ county               &lt;chr&gt; &quot;Fairfield County&quot;, &quot;Hartford County&quot;, &quot;Litchfiel~
+$ life_expectancy      &lt;dbl&gt; 82.57683, 80.31690, 80.69485, 81.06904, 79.98186,~
+$ freq_mental_distress &lt;dbl&gt; 9.663473, 10.244227, 9.852291, 9.609184, 11.08898~
+$ hsgraduation         &lt;dbl&gt; 89.42186, 85.51798, 90.43855, 94.60923, 83.38990,~
+$ unemployment         &lt;dbl&gt; 4.506580, 4.842678, 4.308845, 4.052900, 5.028742,~
+$ food_insecurity      &lt;dbl&gt; 9.6, 11.9, 9.5, 9.9, 12.4, 11.5, 9.9, 11.1, 13.0,~</code></pre>
+<p>Looks good. I can check to see that each of my states has the anticipated number of counties, too.</p>
+<pre class="r"><code>chr_2019 %&gt;% tabyl(state) %&gt;% adorn_pct_formatting() </code></pre>
+<pre><code> state  n percent
+    CT  8   25.8%
+    DC  1    3.2%
+    DE  3    9.7%
+    HI  4   12.9%
+    NH 10   32.3%
+    RI  5   16.1%</code></pre>
+<p>OK. These results match up with what I was expecting.</p>
+</div>
+</div>
+<div id="creating-binary-categorical-variables" class="section level2">
+<h2>Creating Binary Categorical Variables</h2>
+<p>First, I’m going to make a binary categorical variable using the <code>unemployment</code> variable. Note that categorizing a quantitative variable like this is (in practice) a terrible idea, but we’re doing it here so that you can demonstrate some facility with modeling using a categorical variable.</p>
+<p>We have numerous options for creating a binary variable.</p>
+<div id="splitting-into-two-categories-based-on-the-median" class="section level3">
+<h3>Splitting into two categories based on the median</h3>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp1_ms = case_when(
+                   unemployment &lt; median(unemployment) ~ &quot;low&quot;,
+                   TRUE ~ &quot;high&quot;),
+           temp1_ms = factor(temp1_ms))
+
+mosaic::favstats(unemployment ~ temp1_ms, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp1_ms</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">high</td>
+<td align="right">3.922</td>
+<td align="right">4.081</td>
+<td align="right">4.503</td>
+<td align="right">4.875</td>
+<td align="right">6.052</td>
+<td align="right">4.573</td>
+<td align="right">0.550</td>
+<td align="right">16</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">low</td>
+<td align="right">2.182</td>
+<td align="right">2.356</td>
+<td align="right">2.583</td>
+<td align="right">2.821</td>
+<td align="right">3.831</td>
+<td align="right">2.660</td>
+<td align="right">0.461</td>
+<td align="right">15</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="splitting-into-two-categories-based-on-a-specific-value" class="section level3">
+<h3>Splitting into two categories based on a specific value</h3>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp2_4pct = case_when(
+                   unemployment &lt; 0.04 ~ &quot;below4percent&quot;,
+                   TRUE ~ &quot;above4percent&quot;),
+           temp2_4pct = factor(temp2_4pct))
+
+mosaic::favstats(unemployment ~ temp2_4pct, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp2_4pct</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">above4percent</td>
+<td align="right">2.182</td>
+<td align="right">2.608</td>
+<td align="right">3.922</td>
+<td align="right">4.503</td>
+<td align="right">6.052</td>
+<td align="right">3.647</td>
+<td align="right">1.093</td>
+<td align="right">31</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="using-cut2-from-hmisc-to-split-into-two-categories-as-evenly-as-possible" class="section level3">
+<h3>Using cut2 from Hmisc to split into two categories as evenly as possible</h3>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp3_cut2 = factor(Hmisc::cut2(unemployment, g = 2)))
+
+mosaic::favstats(unemployment ~ temp3_cut2, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp3_cut2</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">[2.18,4.00)</td>
+<td align="right">2.182</td>
+<td align="right">2.357</td>
+<td align="right">2.608</td>
+<td align="right">2.849</td>
+<td align="right">3.922</td>
+<td align="right">2.738</td>
+<td align="right">0.546</td>
+<td align="right">16</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">[4.00,6.05]</td>
+<td align="right">4.000</td>
+<td align="right">4.199</td>
+<td align="right">4.507</td>
+<td align="right">4.908</td>
+<td align="right">6.052</td>
+<td align="right">4.616</td>
+<td align="right">0.540</td>
+<td align="right">15</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>This approach is nice in one way, because it specifies the groups with a mathematical interval, but those factor level names can be rather unwieldy in practice. I might tweak them:</p>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp3_cut2 = factor(Hmisc::cut2(unemployment, g = 2)),
+           temp4_newnames = fct_recode(temp3_cut2,
+                                         lessthan4 = &quot;[2.18,4.00)&quot;,
+                                         higher = &quot;[4.00,6.05]&quot;))
+
+mosaic::favstats(unemployment ~ temp4_newnames, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp4_newnames</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">lessthan4</td>
+<td align="right">2.182</td>
+<td align="right">2.357</td>
+<td align="right">2.608</td>
+<td align="right">2.849</td>
+<td align="right">3.922</td>
+<td align="right">2.738</td>
+<td align="right">0.546</td>
+<td align="right">16</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">higher</td>
+<td align="right">4.000</td>
+<td align="right">4.199</td>
+<td align="right">4.507</td>
+<td align="right">4.908</td>
+<td align="right">6.052</td>
+<td align="right">4.616</td>
+<td align="right">0.540</td>
+<td align="right">15</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="cleaning-up" class="section level3">
+<h3>Cleaning up</h3>
+<p>So, I’ve created four different variables here, when I only need the one. I’ll go with the median split approach, (which I’ll rename <code>unemp_cat</code>) and then drop the other attempts I created from my tibble in this next bit of code. Notice the use of the minus sign (<code>-</code>) before the list of variables I’m dropping in the select statement.</p>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    rename(unemp_cat = temp1_ms) %&gt;%
+    select(-c(temp2_4pct, temp3_cut2, temp4_newnames))</code></pre>
+<p>Let’s check - we should still have 31 rows, but now we should have 9 columns (variables), since we’ve added the <code>unemp_cat</code> column to the data.</p>
+<pre class="r"><code>names(chr_2019)</code></pre>
+<pre><code>[1] &quot;fipscode&quot;             &quot;state&quot;                &quot;county&quot;              
+[4] &quot;life_expectancy&quot;      &quot;freq_mental_distress&quot; &quot;hsgraduation&quot;        
+[7] &quot;unemployment&quot;         &quot;food_insecurity&quot;      &quot;unemp_cat&quot;           </code></pre>
+<pre class="r"><code>nrow(chr_2019)</code></pre>
+<pre><code>[1] 31</code></pre>
+<p>OK. Still looks fine.</p>
+</div>
+</div>
+<div id="creating-multi-category-variables" class="section level2">
+<h2>Creating Multi-Category Variables</h2>
+<p>Now, I’m going to demonstrate the creation of a multi-category variable based on the <code>hsgraduation</code> variable. I’ll briefly reiterate that categorizing a quantitative variable like this is (in practice) a terrible, no good, very bad idea, but we’re doing it anyway for pedagogical rather than scientific reasons.</p>
+<div id="creating-a-three-category-variable" class="section level3">
+<h3>Creating a Three-Category Variable</h3>
+<p>Suppose we want to create three groups of equal size (which, since we have only 31 observations and need to have at least 10 in each group, is really our only choice in my example) and want to use the <code>cut2</code> function from the <code>Hmisc</code> package.</p>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp3 = factor(Hmisc::cut2(hsgraduation, g = 3)))
+
+mosaic::favstats(hsgraduation ~ temp3, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp3</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">[72.4,88.0)</td>
+<td align="right">72.367</td>
+<td align="right">81.214</td>
+<td align="right">83.979</td>
+<td align="right">85.172</td>
+<td align="right">87.687</td>
+<td align="right">82.629</td>
+<td align="right">4.218</td>
+<td align="right">11</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">[88.0,90.9)</td>
+<td align="right">87.982</td>
+<td align="right">88.180</td>
+<td align="right">88.765</td>
+<td align="right">89.440</td>
+<td align="right">90.439</td>
+<td align="right">88.930</td>
+<td align="right">0.889</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">[90.9,94.6]</td>
+<td align="right">90.909</td>
+<td align="right">92.308</td>
+<td align="right">93.005</td>
+<td align="right">93.576</td>
+<td align="right">94.609</td>
+<td align="right">92.962</td>
+<td align="right">1.146</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(hsgrad_cat = fct_recode(temp3,
+                                   bottom = &quot;[72.4,88.0)&quot;,
+                                   middle = &quot;[88.0,90.9)&quot;,
+                                   top = &quot;[90.9,94.6]&quot;))
+
+mosaic::favstats(hsgraduation ~ hsgrad_cat, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">hsgrad_cat</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bottom</td>
+<td align="right">72.367</td>
+<td align="right">81.214</td>
+<td align="right">83.979</td>
+<td align="right">85.172</td>
+<td align="right">87.687</td>
+<td align="right">82.629</td>
+<td align="right">4.218</td>
+<td align="right">11</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">middle</td>
+<td align="right">87.982</td>
+<td align="right">88.180</td>
+<td align="right">88.765</td>
+<td align="right">89.440</td>
+<td align="right">90.439</td>
+<td align="right">88.930</td>
+<td align="right">0.889</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">top</td>
+<td align="right">90.909</td>
+<td align="right">92.308</td>
+<td align="right">93.005</td>
+<td align="right">93.576</td>
+<td align="right">94.609</td>
+<td align="right">92.962</td>
+<td align="right">1.146</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li>Note that this same approach (changing <code>g</code> to 4 or 5 as appropriate) could be used to create a 4-category or 5-category variable.</li>
+<li>Note also that I used (bottom, middle, top) as the names of my categories instead of, for instance, (low, middle, high).
+<ul>
+<li>I did this so that R’s default factor sorting (which is alphabetical) would still give me a reasonable order. Otherwise, I’d need to add a <code>fct_relevel</code> step to sort the categories by hand in some reasonable way.</li>
+<li>Another good trick might have been to precede names that wouldn’t be in the order I want them alphabetically with a number so they sort in a sensible order, perhaps with (1_high, 2_med, 3_low.)</li>
+</ul></li>
+</ol>
+</div>
+<div id="creating-a-5-category-variable-with-specified-cutpoints" class="section level3">
+<h3>Creating a 5-Category variable with Specified Cutpoints</h3>
+<p>Suppose we want to split our <code>hsgraduation</code> data so that we have five categories, based on the cutpoints (80, 85, 90 and 92). These four cutpoints will produce five <strong>mutually exclusive</strong> (no county can be in more than one category) and <strong>collectively exhaustive</strong> (every county is assigned to a category) categories:</p>
+<ol style="list-style-type: decimal">
+<li><code>hsgraduation</code> rate below 80,</li>
+<li>80 up to but not including 85,</li>
+<li>85 up to but not including 90,</li>
+<li>90 up to but not including 92, and</li>
+<li><code>hsgraduation</code> rate of 92 or more</li>
+</ol>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    mutate(temp4 = case_when(
+        hsgraduation &lt; 80 ~ &quot;1_lowest&quot;,
+        hsgraduation &lt; 85 ~ &quot;2_low&quot;,
+        hsgraduation &lt; 90 ~ &quot;3_middle&quot;,
+        hsgraduation &lt; 92 ~ &quot;4_high&quot;,
+        TRUE ~ &quot;5_highest&quot;),
+        temp4 = factor(temp4))
+
+mosaic::favstats(hsgraduation ~ temp4, data = chr_2019) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp4</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1_lowest</td>
+<td align="right">72.367</td>
+<td align="right">74.008</td>
+<td align="right">75.648</td>
+<td align="right">77.288</td>
+<td align="right">78.929</td>
+<td align="right">75.648</td>
+<td align="right">4.639</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2_low</td>
+<td align="right">80.074</td>
+<td align="right">82.614</td>
+<td align="right">83.685</td>
+<td align="right">84.176</td>
+<td align="right">84.826</td>
+<td align="right">83.144</td>
+<td align="right">1.723</td>
+<td align="right">6</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3_middle</td>
+<td align="right">85.518</td>
+<td align="right">87.834</td>
+<td align="right">88.150</td>
+<td align="right">88.765</td>
+<td align="right">89.446</td>
+<td align="right">87.958</td>
+<td align="right">1.330</td>
+<td align="right">11</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4_high</td>
+<td align="right">90.084</td>
+<td align="right">90.350</td>
+<td align="right">90.674</td>
+<td align="right">91.181</td>
+<td align="right">91.997</td>
+<td align="right">90.857</td>
+<td align="right">0.832</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">5_highest</td>
+<td align="right">92.291</td>
+<td align="right">92.826</td>
+<td align="right">93.108</td>
+<td align="right">93.917</td>
+<td align="right">94.609</td>
+<td align="right">93.339</td>
+<td align="right">0.889</td>
+<td align="right">8</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>I’ll just note that it is also possible to set cutpoints with <code>Hmisc::cut2</code>.</p>
+</div>
+<div id="cleaning-up-1" class="section level3">
+<h3>Cleaning up</h3>
+<p>So, I’ve created two multi-categorical variables, but I will just retain the 3-category version (which I called <code>hsgrad_cat</code>) and drop the other temporary efforts.</p>
+<pre class="r"><code>chr_2019 &lt;- chr_2019 %&gt;%
+    select(-c(temp3, temp4))</code></pre>
+</div>
+</div>
+<div id="structure-of-my-tibble" class="section level2">
+<h2>Structure of My Tibble</h2>
+<p>Next, I’ll print the structure of my tibble. I’m checking to see that:</p>
+<ul>
+<li>the initial row tells me that this is a tibble and specifies its dimensions</li>
+<li>I still have the complete set of 31 rows (counties)</li>
+<li>I’ve included only 10 variables:
+<ul>
+<li>the three required variables <code>fipscode</code>, <code>county</code> and <code>state</code>, where I’ll also check that <code>fipscode</code> and <code>county</code> should be character (<chr>) variables, and <code>state</code> should be a factor variable (<fct>), with an appropriate number of levels</li>
+<li>my original five selected variables, properly renamed and all of numerical (<num>) type (this may also be specified as double-precision or <dbl>, which is fine)</li>
+<li>my two categorical variables <code>unemp_cat</code> and <code>hsgrad_cat</code> which should each be factors <fct> with appropriate levels specified, followed by numerical codes</li>
+</ul></li>
+</ul>
+<pre class="r"><code>str(chr_2019)</code></pre>
+<pre><code>tibble [31 x 10] (S3: tbl_df/tbl/data.frame)
+ $ fipscode            : chr [1:31] &quot;09001&quot; &quot;09003&quot; &quot;09005&quot; &quot;09007&quot; ...
+ $ state               : Factor w/ 6 levels &quot;CT&quot;,&quot;DC&quot;,&quot;DE&quot;,..: 1 1 1 1 1 1 1 1 3 3 ...
+ $ county              : chr [1:31] &quot;Fairfield County&quot; &quot;Hartford County&quot; &quot;Litchfield County&quot; &quot;Middlesex County&quot; ...
+ $ life_expectancy     : num [1:31] 82.6 80.3 80.7 81.1 80 ...
+ $ freq_mental_distress: num [1:31] 9.66 10.24 9.85 9.61 11.09 ...
+ $ hsgraduation        : num [1:31] 89.4 85.5 90.4 94.6 83.4 ...
+ $ unemployment        : num [1:31] 4.51 4.84 4.31 4.05 5.03 ...
+ $ food_insecurity     : num [1:31] 9.6 11.9 9.5 9.9 12.4 11.5 9.9 11.1 13 11.5 ...
+ $ unemp_cat           : Factor w/ 2 levels &quot;high&quot;,&quot;low&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+ $ hsgrad_cat          : Factor w/ 3 levels &quot;bottom&quot;,&quot;middle&quot;,..: 2 1 2 3 1 2 3 1 2 1 ...</code></pre>
+<p>Looks good so far. I think we are ready to go.</p>
+</div>
+</div>
+<div id="codebook" class="section level1">
+<h1>Codebook</h1>
+<p>This is a table listing all 10 variables that are included in your tibble, and providing some important information about them, mostly drawn from <a href="https://www.countyhealthrankings.org/explore-health-rankings/measures-data-sources/2020-measures">the County Health Ranking web site</a>. For each of your five selected variables, be sure to include the original code (vXXX) from the raw file.</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fipscode</td>
+<td>FIPS code</td>
+</tr>
+<tr class="even">
+<td>state</td>
+<td>State: my six states are CT, DC, DE, HI, NH, RI</td>
+</tr>
+<tr class="odd">
+<td>county</td>
+<td>County Name</td>
+</tr>
+<tr class="even">
+<td>life_expectancy</td>
+<td>(v147) Life Expectancy, which will be my <strong>outcome</strong></td>
+</tr>
+<tr class="odd">
+<td>freq_mental_distress</td>
+<td>(v145) Frequent Mental Distress Rate</td>
+</tr>
+<tr class="even">
+<td>hsgraduation</td>
+<td>(v021) High School Graduation Rate</td>
+</tr>
+<tr class="odd">
+<td>unemployment</td>
+<td>(v023) Unemployment Rate</td>
+</tr>
+<tr class="even">
+<td>food_insecurity</td>
+<td>(v139) Food Insecurity Rate</td>
+</tr>
+<tr class="odd">
+<td>unemp_cat</td>
+<td>2 levels: low = unemployment below 3.9%, or high</td>
+</tr>
+<tr class="even">
+<td>hsgrad_cat</td>
+<td>3 levels: bottom = hsgraduation below 88%, middle or top = 90.9% or above</td>
+</tr>
+</tbody>
+</table>
+<p>Note that I’ve provided details on the definition of our categorical variables.</p>
+<p>More details on two of our original five variables are specified below. These results are rephrased versions of <a href="https://www.countyhealthrankings.org/explore-health-rankings/measures-data-sources/2020-measures">the summaries linked on the County Health Rankings site</a>. You’ll need to provide information of this type as part of the codebook for all five of your selected variables.</p>
+<ul>
+<li><p><code>lifeexpectancy</code> was originally variable <code>v147_rawvalue</code>, and is listed in the Length of Life subcategory under Health Outcomes at County Health Rankings. It describes the average number of years a person residing in the county can expect to live, according to the current mortality experience (age-specific death rates) of the county’s population. It is based on data from the National Center for Health Statistics Mortality Files from 2016-18. This will be my <strong>outcome</strong> variable.</p></li>
+<li><p><code>hsgraduation</code> was originally variable <code>v021_rawvalue</code>, which we multiplied by 100 to turn it from a proportion to a percentage, and is listed in the Education subcategory under Social &amp; Economic Factors at County Health Rankings. It describes the proportion of the county’s ninth grade cohort that graduates with a high school diploma in four years, and is based on EDFacts data from 2016-17. Comparisons across state lines are not recommended because of differences in how states define the data, according to County Health Rankings.</p></li>
+</ul>
+<div id="proposal-requirement-1" class="section level2">
+<h2>Proposal Requirement 1</h2>
+<p>Remember that you will need to do five things in the proposal.</p>
+<ol style="list-style-type: decimal">
+<li>a sentence or two (perhaps accompanied by a small table of R results) specifying the 4-6 states you chose, and the number of counties you are studying in total and within each state. In an additional sentence or two, provide some motivation for why you chose those states.</li>
+</ol>
+</div>
+<div id="proposal-requirement-2" class="section level2">
+<h2>Proposal Requirement 2</h2>
+<ol start="2" style="list-style-type: decimal">
+<li>A list of the five variables (including their original raw names and your renamed versions) you are studying, with a clear indication of the cutpoints you chose to create the binary categories out of variable 4 and the multiple categories out of variable 5. Think of this as an early version of what will eventually become your codebook. For each variable, provide a sentence describing your motivation for why this variable was interesting to you, and also <strong>please</strong> specify which of your quantitative variables will serve as your outcome.</li>
+</ol>
+</div>
+<div id="proposal-requirement-3" class="section level2">
+<h2>Proposal Requirement 3</h2>
+<p>Print the tibble, so we can verify that it is, in fact, a tibble, that prints the first 10 rows.</p>
+<pre class="r"><code>chr_2019</code></pre>
+<pre><code># A tibble: 31 x 10
+   fipscode state county         life_expectancy freq_mental_distr~ hsgraduation
+   &lt;chr&gt;    &lt;fct&gt; &lt;chr&gt;                    &lt;dbl&gt;              &lt;dbl&gt;        &lt;dbl&gt;
+ 1 09001    CT    Fairfield Cou~            82.6               9.66         89.4
+ 2 09003    CT    Hartford Coun~            80.3              10.2          85.5
+ 3 09005    CT    Litchfield Co~            80.7               9.85         90.4
+ 4 09007    CT    Middlesex Cou~            81.1               9.61         94.6
+ 5 09009    CT    New Haven Cou~            80.0              11.1          83.4
+ 6 09011    CT    New London Co~            79.9              10.9          89.0
+ 7 09013    CT    Tolland County            81.8              10.0          92.3
+ 8 09015    CT    Windham County            78.8              11.4          84.8
+ 9 10001    DE    Kent County               77.8              11.7          90.1
+10 10003    DE    New Castle Co~            78.7              11.0          87.7
+# ... with 21 more rows, and 4 more variables: unemployment &lt;dbl&gt;,
+#   food_insecurity &lt;dbl&gt;, unemp_cat &lt;fct&gt;, hsgrad_cat &lt;fct&gt;</code></pre>
+</div>
+<div id="proposal-requirement-4" class="section level2">
+<h2>Proposal Requirement 4</h2>
+<p>To meet proposal requirement 4, run <code>describe</code> from the <code>Hmisc</code> package.</p>
+<pre class="r"><code>Hmisc::describe(chr_2019)</code></pre>
+<pre><code>chr_2019 
+
+ 10  Variables      31  Observations
+--------------------------------------------------------------------------------
+fipscode 
+       n  missing distinct 
+      31        0       31 
+
+lowest : 09001 09003 09005 09007 09009, highest: 44001 44003 44005 44007 44009
+--------------------------------------------------------------------------------
+state 
+       n  missing distinct 
+      31        0        6 
+
+lowest : CT DC DE HI NH, highest: DC DE HI NH RI
+                                              
+Value         CT    DC    DE    HI    NH    RI
+Frequency      8     1     3     4    10     5
+Proportion 0.258 0.032 0.097 0.129 0.323 0.161
+--------------------------------------------------------------------------------
+county 
+       n  missing distinct 
+      31        0       30 
+
+lowest : Belknap County    Bristol County    Carroll County    Cheshire County   Coos County      
+highest: Sullivan County   Sussex County     Tolland County    Washington County Windham County   
+--------------------------------------------------------------------------------
+life_expectancy 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      31        0       31        1    79.99    1.719    78.04    78.34 
+     .25      .50      .75      .90      .95 
+   78.98    79.92    81.02    81.99    82.56 
+
+lowest : 76.76078 77.80577 78.27487 78.34321 78.41546
+highest: 81.80405 81.99087 82.53515 82.57683 82.66931
+--------------------------------------------------------------------------------
+freq_mental_distress 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      31        0       31        1    11.02    1.115    9.484    9.663 
+     .25      .50      .75      .90      .95 
+  10.358   11.089   11.691   12.052   12.094 
+
+lowest :  8.533063  9.358767  9.609184  9.663473  9.852291
+highest: 11.844904 12.052429 12.054963 12.133815 13.272832
+--------------------------------------------------------------------------------
+hsgraduation 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      31        0       31        1    87.99    5.573    79.50    82.35 
+     .25      .50      .75      .90      .95 
+   85.17    88.54    92.14    93.19    94.13 
+
+lowest : 72.36731 78.92854 80.07369 82.35494 83.38990
+highest: 93.02662 93.18966 93.70460 94.55388 94.60923
+--------------------------------------------------------------------------------
+unemployment 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      31        0       31        1    3.647    1.256    2.219    2.353 
+     .25      .50      .75      .90      .95 
+   2.608    3.922    4.503    4.974    5.024 
+
+lowest : 2.181668 2.198898 2.239195 2.353413 2.358351
+highest: 4.842678 4.973634 5.018781 5.028742 6.051724
+--------------------------------------------------------------------------------
+food_insecurity 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      31        0       21    0.994    10.58    1.585     8.95     9.00 
+     .25      .50      .75      .90      .95 
+    9.75    10.40    11.50    12.40    12.90 
+
+lowest :  7.4  8.9  9.0  9.3  9.5, highest: 11.9 12.4 12.8 13.0 13.2
+--------------------------------------------------------------------------------
+unemp_cat 
+       n  missing distinct 
+      31        0        2 
+                      
+Value       high   low
+Frequency     16    15
+Proportion 0.516 0.484
+--------------------------------------------------------------------------------
+hsgrad_cat 
+       n  missing distinct 
+      31        0        3 
+                               
+Value      bottom middle    top
+Frequency      11     10     10
+Proportion  0.355  0.323  0.323
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="three-important-checks" class="section level2">
+<h2>Three Important Checks</h2>
+<p>There are three important things I have to demonstrate, as described in Tasks C (Identify Your Variables) and D (Create Categorical Variables) in our Data Development work. They are:</p>
+<ul>
+<li>Each of the five variables you select must have data for at least 75% of the counties in each state you plan to study.</li>
+</ul>
+<p>Do we have any missing data here?</p>
+<pre class="r"><code>chr_2019 %&gt;% 
+    miss_var_summary()</code></pre>
+<pre><code># A tibble: 10 x 3
+   variable             n_miss pct_miss
+   &lt;chr&gt;                 &lt;int&gt;    &lt;dbl&gt;
+ 1 fipscode                  0        0
+ 2 state                     0        0
+ 3 county                    0        0
+ 4 life_expectancy           0        0
+ 5 freq_mental_distress      0        0
+ 6 hsgraduation              0        0
+ 7 unemployment              0        0
+ 8 food_insecurity           0        0
+ 9 unemp_cat                 0        0
+10 hsgrad_cat                0        0</code></pre>
+<p>Nope, so we’re OK!</p>
+<p>If I did have some missingness, then I would probably want to summarize this by state, so that I could compare the results. Here’s a way to look at this just for the <code>life_expectancy</code> variable.</p>
+<pre class="r"><code>mosaic::favstats(life_expectancy ~ state, data = chr_2019) %&gt;%
+    select(state, n, missing) %&gt;%
+    mutate(pct_available = 100*(n - missing)/n) %&gt;%
+    kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">state</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+<th align="right">pct_available</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="left">DC</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+<tr class="odd">
+<td align="left">DE</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="left">HI</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+<tr class="odd">
+<td align="left">NH</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="left">RI</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>We’re OK, because 100% of the data are available. In my example, this is true for all five of the variables I used. In yours, that may or may not be the case. Remember that all of your selected variables need to be available in at least 75% of the counties in EACH state you study.</p>
+<ul>
+<li>The raw versions of each of your five selected variables must have at least 10 distinct non-missing values.</li>
+</ul>
+<pre class="r"><code>chr_2019 %&gt;% 
+    summarize(across(life_expectancy:food_insecurity, ~ n_distinct(.)))</code></pre>
+<pre><code># A tibble: 1 x 5
+  life_expectancy freq_mental_distress hsgraduation unemployment food_insecurity
+            &lt;int&gt;                &lt;int&gt;        &lt;int&gt;        &lt;int&gt;           &lt;int&gt;
+1              31                   31           31           31              21</code></pre>
+<p>OK. We’re fine there.</p>
+<ul>
+<li>For each of the categorical variables you create, every level of the resulting factor must include at least 10 counties.</li>
+</ul>
+<pre class="r"><code>chr_2019 %&gt;% tabyl(unemp_cat)</code></pre>
+<pre><code> unemp_cat  n  percent
+      high 16 0.516129
+       low 15 0.483871</code></pre>
+<pre class="r"><code>chr_2019 %&gt;% tabyl(hsgrad_cat)</code></pre>
+<pre><code> hsgrad_cat  n   percent
+     bottom 11 0.3548387
+     middle 10 0.3225806
+        top 10 0.3225806</code></pre>
+<p>OK. I have at least 10 counties in each category for each of the categorical variables that I created.</p>
+</div>
+<div id="saving-the-tibble" class="section level2">
+<h2>Saving the Tibble</h2>
+<p>Finally, we’ll save this tibble as an R data set into the same location as our original data set within our R Project directory.</p>
+<pre class="r"><code>saveRDS(chr_2019, file = &quot;chr_2019_Thomas_Love.Rds&quot;)</code></pre>
+<p>You’ll want to substitute in your own name, of course.</p>
+</div>
+<div id="proposal-requirement-5" class="section level2">
+<h2>Proposal Requirement 5</h2>
+<p>Having done all of this work, the set of Proposal Requirements (repeated below) should be straightforward. We’ve already dealt with the first four. The fifth is repeated below.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>In a paragraph, describe the most challenging (or difficult) part of completing the work so far, and how you were able to overcome whatever it was that was difficult.</li>
+</ol>
+<p><em>OK. That’s your job.</em></p>
+</div>
+</div>
+<div id="analyses" class="section level1">
+<h1>Analyses</h1>
+<p>This isn’t part of the proposal.</p>
+</div>
+<div id="session-information" class="section level1">
+<h1>Session Information</h1>
+<p>Be sure to include the session information.</p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.1 (2021-08-10)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19043)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggridges_0.5.3    mosaicData_0.20.2 ggformula_0.10.1  ggstance_0.3.5   
+ [5] Matrix_1.3-4      lattice_0.20-45   forcats_0.5.1     stringr_1.4.0    
+ [9] dplyr_1.0.7       purrr_0.3.4       readr_2.0.2       tidyr_1.1.4      
+[13] tibble_3.1.5      ggplot2_3.3.5     tidyverse_1.3.1   naniar_0.6.1     
+[17] magrittr_2.0.1    janitor_2.1.0     rmdformats_1.0.3  knitr_1.36       
+
+loaded via a namespace (and not attached):
+ [1] colorspace_2.0-2    ellipsis_0.3.2      visdat_0.5.3       
+ [4] leaflet_2.0.4.1     snakecase_0.11.0    htmlTable_2.3.0    
+ [7] base64enc_0.1-3     ggdendro_0.1.22     fs_1.5.0           
+[10] rstudioapi_0.13     farver_2.1.0        ggrepel_0.9.1      
+[13] bit64_4.0.5         fansi_0.5.0         lubridate_1.8.0    
+[16] xml2_1.3.2          mosaic_1.8.3        splines_4.1.1      
+[19] polyclip_1.10-0     Formula_1.2-4       jsonlite_1.7.2     
+[22] broom_0.7.9         cluster_2.1.2       dbplyr_2.1.1       
+[25] png_0.1-7           ggforce_0.3.3       compiler_4.1.1     
+[28] httr_1.4.2          backports_1.2.1     assertthat_0.2.1   
+[31] fastmap_1.1.0       cli_3.0.1           tweenr_1.0.2       
+[34] htmltools_0.5.2     tools_4.1.1         gtable_0.3.0       
+[37] glue_1.4.2          Rcpp_1.0.7          cellranger_1.1.0   
+[40] jquerylib_0.1.4     vctrs_0.3.8         crosstalk_1.1.1    
+[43] xfun_0.27           rvest_1.0.2         lifecycle_1.0.1    
+[46] mosaicCore_0.9.0    MASS_7.3-54         scales_1.1.1       
+[49] vroom_1.5.5         hms_1.1.1           parallel_4.1.1     
+[52] RColorBrewer_1.1-2  yaml_2.2.1          curl_4.3.2         
+[55] gridExtra_2.3       sass_0.4.0          labelled_2.8.0     
+[58] rpart_4.1-15        latticeExtra_0.6-29 stringi_1.7.5      
+[61] highr_0.9           checkmate_2.0.0     rlang_0.4.12       
+[64] pkgconfig_2.0.3     evaluate_0.14       htmlwidgets_1.5.4  
+[67] bit_4.0.4           tidyselect_1.1.1    plyr_1.8.6         
+[70] bookdown_0.24       R6_2.5.1            generics_0.1.0     
+[73] Hmisc_4.6-0         DBI_1.1.1           pillar_1.6.4       
+[76] haven_2.4.3         foreign_0.8-81      withr_2.4.2        
+[79] survival_3.2-13     nnet_7.3-16         modelr_0.1.8       
+[82] crayon_1.4.1        utf8_1.2.2          tzdb_0.1.2         
+[85] rmarkdown_2.11      jpeg_0.1-9          grid_4.1.1         
+[88] readxl_1.3.1        data.table_1.14.2   reprex_2.0.1       
+[91] digest_0.6.28       munsell_0.5.0       bslib_0.3.1        </code></pre>
+</div>
+
+<p><img alt="431 Footer" style="border-width:10" src="431_foot2.PNG" height="200" width ="800"/></a> 
+</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

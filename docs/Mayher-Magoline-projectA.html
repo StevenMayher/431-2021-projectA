@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Steven Mayher &amp; Anna Magoline" />
+
+<meta name="date" content="2021-10-31" />
+
+<title>The Effects of College Education and Environmental Factors on Income Inequality</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">431 Project A</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="data.html">Data</a>
+</li>
+<li>
+  <a href="proposal.html">The Proposal</a>
+</li>
+<li>
+  <a href="analyses.html">Analyses</a>
+</li>
+<li>
+  <a href="final.html">Final Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Examples &amp; Tips
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exampleA.html">Project Proposal Example</a>
+    </li>
+    <li>
+      <a href="exampleB.html">Outline of Analysis Section</a>
+    </li>
+    <li>
+      <a href="check_final.html">Final Report Checklist</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://thomaselove.github.io/431/contact.html">Contact Us</a>
+</li>
+<li>
+  <a href="https://thomaselove.github.io/431/">431 Homepage</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">The Effects of College Education and Environmental Factors on Income Inequality</h1>
+<h4 class="author">Steven Mayher &amp; Anna Magoline</h4>
+<h4 class="date">2021-10-31</h4>
+
+</div>
+
+
+<div id="preliminaries" class="section level1">
+<h1>Preliminaries</h1>
+<div id="my-r-packages" class="section level2">
+<h2>My R Packages</h2>
+<pre class="r"><code>library(janitor)
+library(magrittr)
+library(naniar)
+#library(broom)
+library(tidyverse)
+#library(patchwork)
+
+#theme_set(theme_bw())</code></pre>
+</div>
+<div id="data-ingest" class="section level2">
+<h2>Data Ingest</h2>
+<pre class="r"><code>data_url &lt;- &quot;https://www.countyhealthrankings.org/sites/default/files/media/document/analytic_data2021.csv&quot;
+chr_2021_raw &lt;- read_csv(data_url, skip = 1)</code></pre>
+</div>
+</div>
+<div id="data-development" class="section level1">
+<h1>Data Development</h1>
+<div id="selecting-my-data" class="section level2">
+<h2>Selecting My Data</h2>
+<pre class="r"><code>chr_2021 &lt;- chr_2021_raw %&gt;%
+    filter(county_ranked == 1) %&gt;%
+    filter(state %in% c(&quot;OH&quot;, &quot;MI&quot;, &quot;PA&quot;, &quot;NY&quot;, &quot;CA&quot;, &quot;WA&quot;)) %&gt;%
+    select(fipscode, state, county,
+           v044_rawvalue, v069_rawvalue, v153_rawvalue, 
+           v154_rawvalue, v166_rawvalue) %&gt;%
+    rename(income_inequality = v044_rawvalue,
+           some_college = v069_rawvalue,
+           homeownership = v153_rawvalue,
+           severe_housing_cost_burden = v154_rawvalue,
+           broadband_access = v166_rawvalue) %&gt;%
+    mutate(some_college = 100*some_college,
+           homeownership = 100*homeownership,
+           severe_housing_cost_burden = 100*severe_housing_cost_burden,
+           broadband_access = 100*broadband_access)</code></pre>
+</div>
+<div id="repairing-the-fipscode-and-factoring-the-state" class="section level2">
+<h2>Repairing the <code>fipscode</code> and factoring the <code>state</code></h2>
+<pre class="r"><code>chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(fipscode = str_pad(fipscode, 5, pad = &quot;0&quot;),
+           state = factor(state))</code></pre>
+</div>
+<div id="creating-binary-categorical-variables" class="section level2">
+<h2>Creating Binary Categorical Variables</h2>
+<p>Accomplished by splitting <code>severe_housing_cost_burden</code> into two categories based on the variable’s median:</p>
+<pre class="r"><code>chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(severe_housing_cost_burden_binary_cat = case_when(
+                   severe_housing_cost_burden &lt; median(severe_housing_cost_burden) ~ &quot;Low&quot;,
+                   TRUE ~ &quot;High&quot;),
+           severe_housing_cost_burden_binary_cat = factor(severe_housing_cost_burden_binary_cat))
+
+mosaic::favstats(severe_housing_cost_burden ~ severe_housing_cost_burden_binary_cat, data = chr_2021) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">severe_housing_cost_burden_binary_cat</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">High</td>
+<td align="right">11.522</td>
+<td align="right">12.499</td>
+<td align="right">13.906</td>
+<td align="right">17.156</td>
+<td align="right">31.042</td>
+<td align="right">15.078</td>
+<td align="right">3.337</td>
+<td align="right">199</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Low</td>
+<td align="right">5.251</td>
+<td align="right">8.576</td>
+<td align="right">9.698</td>
+<td align="right">10.605</td>
+<td align="right">11.505</td>
+<td align="right">9.543</td>
+<td align="right">1.355</td>
+<td align="right">198</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="creating-multi-category-variables" class="section level2">
+<h2>Creating Multi-Category Variables</h2>
+<pre class="r"><code>chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(temp4 = factor(Hmisc::cut2(severe_housing_cost_burden, g = 5)))
+
+mosaic::favstats(severe_housing_cost_burden ~ temp4, data = chr_2021) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">temp4</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">[ 5.25, 9.42)</td>
+<td align="right">5.251</td>
+<td align="right">7.607</td>
+<td align="right">8.270</td>
+<td align="right">8.916</td>
+<td align="right">9.397</td>
+<td align="right">8.174</td>
+<td align="right">0.918</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">[ 9.42,10.87)</td>
+<td align="right">9.419</td>
+<td align="right">9.712</td>
+<td align="right">10.136</td>
+<td align="right">10.480</td>
+<td align="right">10.848</td>
+<td align="right">10.130</td>
+<td align="right">0.424</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">[10.87,12.28)</td>
+<td align="right">10.872</td>
+<td align="right">11.134</td>
+<td align="right">11.527</td>
+<td align="right">11.769</td>
+<td align="right">12.243</td>
+<td align="right">11.513</td>
+<td align="right">0.404</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">[12.28,14.99)</td>
+<td align="right">12.280</td>
+<td align="right">12.758</td>
+<td align="right">13.200</td>
+<td align="right">13.936</td>
+<td align="right">14.897</td>
+<td align="right">13.352</td>
+<td align="right">0.733</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">[14.99,31.04]</td>
+<td align="right">14.990</td>
+<td align="right">16.526</td>
+<td align="right">18.085</td>
+<td align="right">19.584</td>
+<td align="right">31.042</td>
+<td align="right">18.484</td>
+<td align="right">2.726</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<div id="creating-a-five-category-variable" class="section level3">
+<h3>Creating a Five-Category Variable</h3>
+<pre class="r"><code>chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(temp3 = factor(Hmisc::cut2(broadband_access, g = 5)))
+
+chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(broadband_access_cat = fct_recode(temp3,
+                                   &quot;Lowest&quot; = &quot;[55.6,75.2)&quot;,
+                                   &quot;Lower&quot; = &quot;[75.2,78.7)&quot;,
+                                   &quot;Middle&quot; = &quot;[78.7,81.3)&quot;,
+                                   &quot;Higher&quot; = &quot;[81.3,84.7)&quot;,
+                                   &quot;Highest&quot; = &quot;[84.7,93.3]&quot;))
+chr_2021 &lt;- chr_2021 %&gt;%
+    select(-c(temp3))
+
+mosaic::favstats(broadband_access ~ broadband_access_cat, data = chr_2021) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">broadband_access_cat</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Lowest</td>
+<td align="right">55.615</td>
+<td align="right">70.532</td>
+<td align="right">72.840</td>
+<td align="right">73.889</td>
+<td align="right">75.128</td>
+<td align="right">71.632</td>
+<td align="right">3.458</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Lower</td>
+<td align="right">75.175</td>
+<td align="right">76.184</td>
+<td align="right">76.982</td>
+<td align="right">77.840</td>
+<td align="right">78.637</td>
+<td align="right">76.980</td>
+<td align="right">1.010</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Middle</td>
+<td align="right">78.671</td>
+<td align="right">79.427</td>
+<td align="right">80.031</td>
+<td align="right">80.435</td>
+<td align="right">81.244</td>
+<td align="right">79.972</td>
+<td align="right">0.735</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Higher</td>
+<td align="right">81.312</td>
+<td align="right">82.123</td>
+<td align="right">82.937</td>
+<td align="right">83.773</td>
+<td align="right">84.631</td>
+<td align="right">82.939</td>
+<td align="right">1.001</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Highest</td>
+<td align="right">84.681</td>
+<td align="right">85.887</td>
+<td align="right">87.555</td>
+<td align="right">89.390</td>
+<td align="right">93.251</td>
+<td align="right">87.763</td>
+<td align="right">2.230</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(temp4 = factor(Hmisc::cut2(severe_housing_cost_burden, g = 5)))
+
+chr_2021 &lt;- chr_2021 %&gt;%
+    mutate(severe_housing_cost_burden_cat = fct_recode(temp4,
+                                   &quot;Lowest&quot; = &quot;[ 5.25, 9.42)&quot;,
+                                   &quot;Lower&quot; = &quot;[ 9.42,10.87)&quot;,
+                                   &quot;Middle&quot; = &quot;[10.87,12.28)&quot;,
+                                   &quot;Higher&quot; = &quot;[12.28,14.99)&quot;,
+                                   &quot;Highest&quot; = &quot;[14.99,31.04]&quot;))
+chr_2021 &lt;- chr_2021 %&gt;%
+    select(-c(temp4))
+
+mosaic::favstats(severe_housing_cost_burden ~ severe_housing_cost_burden_cat, data = chr_2021) %&gt;% 
+    kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">severe_housing_cost_burden_cat</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Lowest</td>
+<td align="right">5.251</td>
+<td align="right">7.607</td>
+<td align="right">8.270</td>
+<td align="right">8.916</td>
+<td align="right">9.397</td>
+<td align="right">8.174</td>
+<td align="right">0.918</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Lower</td>
+<td align="right">9.419</td>
+<td align="right">9.712</td>
+<td align="right">10.136</td>
+<td align="right">10.480</td>
+<td align="right">10.848</td>
+<td align="right">10.130</td>
+<td align="right">0.424</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Middle</td>
+<td align="right">10.872</td>
+<td align="right">11.134</td>
+<td align="right">11.527</td>
+<td align="right">11.769</td>
+<td align="right">12.243</td>
+<td align="right">11.513</td>
+<td align="right">0.404</td>
+<td align="right">80</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Higher</td>
+<td align="right">12.280</td>
+<td align="right">12.758</td>
+<td align="right">13.200</td>
+<td align="right">13.936</td>
+<td align="right">14.897</td>
+<td align="right">13.352</td>
+<td align="right">0.733</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Highest</td>
+<td align="right">14.990</td>
+<td align="right">16.526</td>
+<td align="right">18.085</td>
+<td align="right">19.584</td>
+<td align="right">31.042</td>
+<td align="right">18.484</td>
+<td align="right">2.726</td>
+<td align="right">79</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="structure-of-my-tibble" class="section level2">
+<h2>Structure of My Tibble</h2>
+<pre class="r"><code>str(chr_2021)</code></pre>
+<pre><code>tibble [397 x 11] (S3: tbl_df/tbl/data.frame)
+ $ fipscode                             : chr [1:397] &quot;06001&quot; &quot;06003&quot; &quot;06005&quot; &quot;06007&quot; ...
+ $ state                                : Factor w/ 6 levels &quot;CA&quot;,&quot;MI&quot;,&quot;NY&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ county                               : chr [1:397] &quot;Alameda County&quot; &quot;Alpine County&quot; &quot;Amador County&quot; &quot;Butte County&quot; ...
+ $ income_inequality                    : num [1:397] 5.17 4.23 4.4 5.43 4.19 ...
+ $ some_college                         : num [1:397] 76.1 51.9 62.3 68.5 56.3 ...
+ $ homeownership                        : num [1:397] 53.5 84 76.5 59 77.8 ...
+ $ severe_housing_cost_burden           : num [1:397] 17.1 13.4 17 19 16.9 ...
+ $ broadband_access                     : num [1:397] 88.9 82.6 84.6 85.4 82.3 ...
+ $ severe_housing_cost_burden_binary_cat: Factor w/ 2 levels &quot;High&quot;,&quot;Low&quot;: 1 1 1 1 1 2 1 1 1 1 ...
+ $ broadband_access_cat                 : Factor w/ 5 levels &quot;Lowest&quot;,&quot;Lower&quot;,..: 5 4 4 5 4 3 5 3 5 3 ...
+ $ severe_housing_cost_burden_cat       : Factor w/ 5 levels &quot;Lowest&quot;,&quot;Lower&quot;,..: 5 4 5 5 5 3 5 5 5 5 ...</code></pre>
+</div>
+</div>
+<div id="codebook" class="section level1">
+<h1>Codebook</h1>
+<div id="proposal-requirement-1---state-selection-explanation" class="section level2">
+<h2>Proposal Requirement 1 - State Selection Explanation</h2>
+<p>The states that were chosen for this project are California, Washington, New York, Pennsylvania, Michigan, and Ohio. These states in particular were selected to create representative samples of three different regions of the United States - the northeast (New York and Pennsylvania), the midwest (Ohio and Michigan), and the west (California and Washington). While it is beyond the scope of this project, it could be interesting to examine how income inequality is affected by the selected variables in these different regions, so two representative states for each region were selected such that the final selection fit these and the project’s other constraints (200 - 400 ranked counties, Ohio mandatory). The regions were determined by referencing the US gov census regions, as identified from the pdf on their official website:</p>
+<p><a href="https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf" class="uri">https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf</a></p>
+</div>
+<div id="proposal-requirement-2---list-and-describe-the-5-selected-variables" class="section level2">
+<h2>Proposal Requirement 2 - List and Describe the 5 Selected Variables</h2>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fipscode</td>
+<td>FIPS code</td>
+</tr>
+<tr class="even">
+<td>state</td>
+<td>State: our six states are CA, WA, NY, PA, MI, OH</td>
+</tr>
+<tr class="odd">
+<td>county</td>
+<td>County Name</td>
+</tr>
+<tr class="even">
+<td>income_inequality</td>
+<td>(v044) Income Inequality, which will be our <strong>outcome</strong></td>
+</tr>
+<tr class="odd">
+<td>some_college</td>
+<td>(v069) Some College Education Rate</td>
+</tr>
+<tr class="even">
+<td>homeownership</td>
+<td>(v153) Homeownership Rate</td>
+</tr>
+<tr class="odd">
+<td>severe_housing_cost_burden</td>
+<td>(v154) Severe Housing Cost Burden Rate</td>
+</tr>
+<tr class="even">
+<td>broadband_access</td>
+<td>(v166) Broadband Access Rate</td>
+</tr>
+<tr class="odd">
+<td>severe_housing_cost_burden_cat</td>
+<td>2 levels: low = severe_housing_cost_burden below 11.5%, or high</td>
+</tr>
+<tr class="even">
+<td>broadband_access_cat</td>
+<td>5 levels: lowest = broadband_access below 75%, lower = between 75% and 78.6%, middle = between 78.6% and 81%, higher = between 81% and 84.6%, or highest = 84.6% or above</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><code>income_inequality</code> was originally variable <code>v044_rawvalue</code>, and is listed in the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It describes the ratio of households with a household income at the 80th percentile compared to household income at the 20th percentile for each county. The higher the value is, the greater the difference between 80th percentile median income and 20th percentile median income for that county. It is based on data from the American Community Survey’s 5-year estimates from 2015-19. This will be my <strong>outcome</strong> variable. This variable was interesting to us because, again while it may be beyond the scope of the project itself, there could be disparities in income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line.</p></li>
+<li><p><code>some_college</code> was originally variable <code>v069_rawvalue</code>, and is listed under the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of adults per county that are between 25-44 years old and possess some post-secondary education. The higher the number, the greater the proportion of people there are in the 25-44 year old age group in the specified county that possess some level of post-secondary education. It is based on data from the American Community Survey’s 5-year estimates from 2015-19.</p></li>
+<li><p><code>homeownership</code> was originally variable <code>v153_rawvalue</code>, and is listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of housing units that are occupied in the given county. The higher the proportion, the greater the number of occupied housing units in the associated county, and it is based on the data from the American Community Survey’s 5-year estimates from 2015-19.</p></li>
+<li><p><code>severe_housing_cost_burden</code> was originally <code>v154_rawvalue</code>, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households that spend 50% or more of their household income on housing. The higher the proportion, the greater the proportion of the associated county’s population pays 50% or more of their household income on housing costs. It is based on the data from the American Community Survey’s 5-year estimates from 2015-19, and this variable was selected to be the <strong>binary categorical variable</strong> using the median value(s) as the cut point for the creation of the binary categorical.</p></li>
+<li><p><code>broadband_access</code> was originally variable <code>v166_rawvalue</code>, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households with broadband internet connection in the associated county. The higher the value, the greater the proportion of the associated county’s population has broadband internet access from their own households. It is based on the data from the American Community Survey’s 5-year estimates from 2015-19, and this variable was selected to be the <strong>multi-categorical variable</strong> for this project. It was selected to have five different categories, which were created from four cut points that produce five mutually exclusive and collectively exhaustive categories from the variable’s data.</p></li>
+<li><p>We selected the <code>some_college</code>, <code>homeownership</code>, <code>severe_housing_cost_burden</code>, and <code>broadband_access</code> variables to be our analysis variables because they fit within our focus that we determined when creating our title/focus for our project, and while it may be beyond the scope of the project itself, there could be disparities between these variables’ relationships with income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line to analyze the results of this project in this manner.</p></li>
+</ul>
+</div>
+<div id="proposal-requirement-3---print-the-tibble" class="section level2">
+<h2>Proposal Requirement 3 - Print the Tibble</h2>
+<pre class="r"><code>chr_2021</code></pre>
+<pre><code># A tibble: 397 x 11
+   fipscode state county             income_inequali~ some_college homeownership
+   &lt;chr&gt;    &lt;fct&gt; &lt;chr&gt;                         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
+ 1 06001    CA    Alameda County                 5.17         76.1          53.5
+ 2 06003    CA    Alpine County                  4.23         51.9          84  
+ 3 06005    CA    Amador County                  4.40         62.3          76.5
+ 4 06007    CA    Butte County                   5.43         68.5          59.0
+ 5 06009    CA    Calaveras County               4.19         56.3          77.8
+ 6 06011    CA    Colusa County                  4.33         51.0          61.0
+ 7 06013    CA    Contra Costa Coun~             4.75         71.9          65.9
+ 8 06015    CA    Del Norte County               5.04         42.1          63.1
+ 9 06017    CA    El Dorado County               4.79         69.5          75.7
+10 06019    CA    Fresno County                  5.10         55.6          53.3
+# ... with 387 more rows, and 5 more variables:
+#   severe_housing_cost_burden &lt;dbl&gt;, broadband_access &lt;dbl&gt;,
+#   severe_housing_cost_burden_binary_cat &lt;fct&gt;, broadband_access_cat &lt;fct&gt;,
+#   severe_housing_cost_burden_cat &lt;fct&gt;</code></pre>
+</div>
+<div id="proposal-requirement-4---show-the-final-data-set-details" class="section level2">
+<h2>Proposal Requirement 4 - Show the Final Data Set Details</h2>
+<pre class="r"><code>Hmisc::describe(chr_2021)</code></pre>
+<pre><code>chr_2021 
+
+ 11  Variables      397  Observations
+--------------------------------------------------------------------------------
+fipscode 
+       n  missing distinct 
+     397        0      397 
+
+lowest : 06001 06003 06005 06007 06009, highest: 53069 53071 53073 53075 53077
+--------------------------------------------------------------------------------
+state 
+       n  missing distinct 
+     397        0        6 
+
+lowest : CA MI NY OH PA, highest: MI NY OH PA WA
+                                              
+Value         CA    MI    NY    OH    PA    WA
+Frequency     58    83    62    88    67    39
+Proportion 0.146 0.209 0.156 0.222 0.169 0.098
+--------------------------------------------------------------------------------
+county 
+       n  missing distinct 
+     397        0      335 
+
+lowest : Adams County   Alameda County Albany County  Alcona County  Alger County  
+highest: Yakima County  Yates County   Yolo County    York County    Yuba County   
+--------------------------------------------------------------------------------
+income_inequality 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     397        0      397        1      4.4   0.6403    3.657    3.748 
+     .25      .50      .75      .90      .95 
+   4.015    4.315    4.663    5.027    5.477 
+
+lowest : 2.893352 3.284967 3.290036 3.426509 3.465714
+highest: 6.696704 6.760447 6.861505 7.087860 9.146811
+--------------------------------------------------------------------------------
+some_college 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     397        0      397        1    60.13    11.13    46.25    48.45 
+     .25      .50      .75      .90      .95 
+   53.10    59.33    67.08    72.45    76.47 
+
+lowest : 17.63527 19.21249 32.39617 36.15935 36.49967
+highest: 84.34242 84.99613 85.31253 85.91531 87.56954
+--------------------------------------------------------------------------------
+homeownership 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     397        0      397        1    71.12    9.708    56.41    59.86 
+     .25      .50      .75      .90      .95 
+   66.38    72.26    76.98    81.07    83.81 
+
+lowest : 19.69160 24.06921 30.11078 37.59832 43.63020
+highest: 88.22055 88.31382 88.78730 88.81315 89.70848
+--------------------------------------------------------------------------------
+severe_housing_cost_burden 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     397        0      397        1    12.32    4.043    7.610    8.276 
+     .25      .50      .75      .90      .95 
+   9.701   11.522   13.906   17.996   19.535 
+
+lowest :  5.251019  5.965428  6.177099  6.445916  6.489154
+highest: 23.794273 24.042303 24.256947 26.763764 31.041839
+--------------------------------------------------------------------------------
+broadband_access 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     397        0      397        1    79.84    6.499    70.54    72.85 
+     .25      .50      .75      .90      .95 
+   76.18    80.03    83.77    87.43    89.36 
+
+lowest : 55.61497 63.63636 63.98833 64.20875 65.29164
+highest: 91.58451 91.66171 91.81072 91.84025 93.25141
+--------------------------------------------------------------------------------
+severe_housing_cost_burden_binary_cat 
+       n  missing distinct 
+     397        0        2 
+                      
+Value       High   Low
+Frequency    199   198
+Proportion 0.501 0.499
+--------------------------------------------------------------------------------
+broadband_access_cat 
+       n  missing distinct 
+     397        0        5 
+
+lowest : Lowest  Lower   Middle  Higher  Highest
+highest: Lowest  Lower   Middle  Higher  Highest
+                                                  
+Value       Lowest   Lower  Middle  Higher Highest
+Frequency       80      79      80      79      79
+Proportion   0.202   0.199   0.202   0.199   0.199
+--------------------------------------------------------------------------------
+severe_housing_cost_burden_cat 
+       n  missing distinct 
+     397        0        5 
+
+lowest : Lowest  Lower   Middle  Higher  Highest
+highest: Lowest  Lower   Middle  Higher  Highest
+                                                  
+Value       Lowest   Lower  Middle  Higher Highest
+Frequency       80      79      80      79      79
+Proportion   0.202   0.199   0.202   0.199   0.199
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="three-important-checks" class="section level2">
+<h2>Three Important Checks</h2>
+<ul>
+<li>Do we have any missing data? The <code>miss_var_summary()</code> check below illustrates that we do not.</li>
+</ul>
+<pre class="r"><code>chr_2021 %&gt;% 
+    miss_var_summary()</code></pre>
+<pre><code># A tibble: 11 x 3
+   variable                              n_miss pct_miss
+   &lt;chr&gt;                                  &lt;int&gt;    &lt;dbl&gt;
+ 1 fipscode                                   0        0
+ 2 state                                      0        0
+ 3 county                                     0        0
+ 4 income_inequality                          0        0
+ 5 some_college                               0        0
+ 6 homeownership                              0        0
+ 7 severe_housing_cost_burden                 0        0
+ 8 broadband_access                           0        0
+ 9 severe_housing_cost_burden_binary_cat      0        0
+10 broadband_access_cat                       0        0
+11 severe_housing_cost_burden_cat             0        0</code></pre>
+<ul>
+<li>Do the raw versions of each of the five selected variables have at least 10 distinct non-missing values? The <code>summarize(across())</code> check below illustrates that we have 397 non-missing values, which matches what we’d expect given the total number of ranked counties from our selected states.</li>
+</ul>
+<pre class="r"><code>chr_2021 %&gt;% 
+    summarize(across(income_inequality:broadband_access, ~ n_distinct(.)))</code></pre>
+<pre><code># A tibble: 1 x 5
+  income_inequality some_college homeownership severe_housing_~ broadband_access
+              &lt;int&gt;        &lt;int&gt;         &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
+1               397          397           397              397              397</code></pre>
+<ul>
+<li>For each of the categorical variables created, every level of the resulting factor must include at least 10 counties. The check below illustrates that our binary categorical has 198 - 199 in each category, and our multi-categorical has 79 - 80 in each category.</li>
+</ul>
+<pre class="r"><code>chr_2021 %&gt;% tabyl(severe_housing_cost_burden_cat)</code></pre>
+<pre><code> severe_housing_cost_burden_cat  n   percent
+                         Lowest 80 0.2015113
+                          Lower 79 0.1989924
+                         Middle 80 0.2015113
+                         Higher 79 0.1989924
+                        Highest 79 0.1989924</code></pre>
+<pre class="r"><code>chr_2021 %&gt;% tabyl(broadband_access_cat)</code></pre>
+<pre><code> broadband_access_cat  n   percent
+               Lowest 80 0.2015113
+                Lower 79 0.1989924
+               Middle 80 0.2015113
+               Higher 79 0.1989924
+              Highest 79 0.1989924</code></pre>
+</div>
+<div id="saving-the-tibble" class="section level2">
+<h2>Saving the Tibble</h2>
+<pre class="r"><code>saveRDS(chr_2021, file = &quot;data/chr_2021_Steven_Mayher_and_Anna_Magoline.Rds&quot;)</code></pre>
+</div>
+<div id="proposal-requirement-5---the-most-difficult-parts-so-far" class="section level2">
+<h2>Proposal Requirement 5 - The Most Difficult Part(s) So Far</h2>
+<p>So far, the most difficult part of completing the work so far was actually arranging time to sit down and work on it together on the project. The two of us have challenging schedules, and because of the nature of the project, without sitting down to discuss it, it became difficult to get the project up off of the ground. Additionally, without a shared means of working on the markdown file, only one of us could work on it at a time, even if we placed the file on a shared drive. While we’re still working out our scheduling to ensure that we both get to sit down and discuss the project steps at length and ensure we’re on the same page, we have investigated the use of GitHub for hosting our project code, so that we can both work with the file simultaneously. We will use this moving forward to streamline our workflow, and we intend to continue to work through our scheduling issues as well.</p>
+<p>Scheduling and technical difficulties aside, the most difficult aspect of the project was actually developing a title (and in extension a focus) for the project that fit the variables we wanted to analyze. While we were interested in analyzing income inequality as an outcome from the beginning, we admittedly cycled out several different variables for the rest of our choices that we initially wanted to use, but couldn’t properly unify under a concise but focused title (such as <code>poor_or_fair_health</code>, <code>premature_age_adjusted_mortality</code>, and <code>insufficient_sleep</code> just to name a few). To solve our problem, we decided to first come up with an appropriate name for our study, and then use that as direction to help us determine what variables we should choose to use in our study.</p>
+</div>
+</div>
+
+<p><img alt="431 Footer" style="border-width:10" src="431_foot2.PNG" height="200" width ="800"/></a> 
+</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

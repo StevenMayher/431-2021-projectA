@@ -1,0 +1,38 @@
+name: "431-projectA"
+output_dir: "docs"
+navbar:
+  title: "431 Project A"
+  type: inverse
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Data"
+      href: data.html
+    - text: "The Proposal"
+      href: proposal.html
+    - text: "Analyses"
+      href: analyses.html
+    - text: "Final Report"
+      href: final.html
+    - text: "Examples & Tips"
+      menu: 
+        - text: "Project Proposal Example"
+          href: exampleA.html
+        - text: "Outline of Analysis Section"
+          href: exampleB.html
+        - text: "Final Report Checklist"
+          href: check_final.html
+  right:
+    - text: "Contact Us"
+      href: https://thomaselove.github.io/431/contact.html
+    - text: "431 Homepage"
+      href: https://thomaselove.github.io/431/
+output:
+  html_document:
+    theme: cerulean
+    highlight: textmate
+    includes:
+      after_body: footer.html
+    lib_dir: site_libs
+    self_contained: no
+

@@ -1,0 +1,742 @@
+---
+title: "The Effects of College Education and Environmental Factors on Income Inequality"
+author: "Steven Mayher & Anna Magoline"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections: TRUE
+    code_folding: show
+---
+
+# Preliminaries
+
+```{r setup, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="100")
+opts_chunk$set(comment=NA)
+opts_knit$set(width=75)
+```
+
+## My R Packages
+
+```{r load_packages_here, message = FALSE, warning = FALSE}
+library(janitor)
+library(magrittr)
+library(naniar)
+library(broom)
+library(tidyverse)
+library(car)
+library(ggrepel)
+
+theme_set(theme_bw())
+```
+
+## Data Ingest
+
+```{r read_in_data_here, message = FALSE}
+data_url <- "https://www.countyhealthrankings.org/sites/default/files/media/document/analytic_data2021.csv"
+chr_2021_raw <- read_csv(data_url, skip = 1)
+```
+
+# Data Development
+
+## Selecting My Data
+
+```{r}
+chr_2021 <- chr_2021_raw %>%
+    filter(county_ranked == 1) %>%
+    filter(state %in% c("OH", "MI", "PA", "NY", "CA", "WA")) %>%
+    select(fipscode, state, county,
+           v044_rawvalue, v069_rawvalue, v153_rawvalue, 
+           v154_rawvalue, v166_rawvalue) %>%
+    rename(income_inequality = v044_rawvalue,
+           some_college = v069_rawvalue,
+           homeownership = v153_rawvalue,
+           severe_housing_cost_burden = v154_rawvalue,
+           broadband_access = v166_rawvalue) %>%
+    mutate(some_college = 100*some_college,
+           homeownership = 100*homeownership,
+           severe_housing_cost_burden = 100*severe_housing_cost_burden,
+           broadband_access = 100*broadband_access)
+```
+
+## Repairing the `fipscode` and factoring the `state`
+
+```{r}
+chr_2021 <- chr_2021 %>%
+    mutate(fipscode = str_pad(fipscode, 5, pad = "0"),
+           state = factor(state))
+```
+
+## Creating Binary Categorical Variables
+
+Accomplished by splitting `severe_housing_cost_burden` into two categories based on the variable's median:
+
+```{r, message = FALSE, warning = FALSE}
+chr_2021 <- chr_2021 %>%
+    mutate(broadband_access_cat = case_when(
+                   broadband_access < median(broadband_access) ~ "Low",
+                   TRUE ~ "High"),
+           broadband_access_cat = factor(broadband_access_cat))
+
+mosaic::favstats(broadband_access ~ broadband_access_cat, data = chr_2021) %>% 
+    kable(digits = 3)
+```
+
+## Creating Multi-Category Variables
+
+```{r}
+chr_2021 <- chr_2021 %>%
+    mutate(temp = factor(Hmisc::cut2(severe_housing_cost_burden, g = 5)))
+
+mosaic::favstats(severe_housing_cost_burden ~ temp, data = chr_2021) %>% 
+    kable(digits = 3)
+```
+
+### Creating a Five-Category Variable
+
+```{r}
+chr_2021 <- chr_2021 %>%
+    mutate(temp = factor(Hmisc::cut2(severe_housing_cost_burden, g = 5)))
+
+chr_2021 <- chr_2021 %>%
+    mutate(severe_housing_cost_burden_cat = fct_recode(temp,
+                                   "Lowest" = "[ 5.25, 9.42)",
+                                   "Low" = "[ 9.42,10.87)",
+                                   "Medium" = "[10.87,12.28)",
+                                   "High" = "[12.28,14.99)",
+                                   "Highest" = "[14.99,31.04]"))
+chr_2021 <- chr_2021 %>%
+    select(-c(temp))
+
+mosaic::favstats(severe_housing_cost_burden ~ severe_housing_cost_burden_cat, data = chr_2021) %>% 
+    kable(digits = 3)
+```
+
+## Structure of My Tibble
+
+```{r}
+str(chr_2021)
+```
+
+# Codebook
+
+## Proposal Requirement 1 - State Selection Explanation
+
+The states that were chosen for this project are California, Washington, New York, Pennsylvania, Michigan, and Ohio. These states in particular were selected to create representative samples of three different regions of the United States - the northeast (New York and Pennsylvania), the midwest (Ohio and Michigan), and the west (California and Washington). While it is beyond the scope of this project, it could be interesting to examine how income inequality is affected by the selected variables in these different regions, so two representative states for each region were selected such that the final selection fit these and the project's other constraints (200 - 400 ranked counties, Ohio mandatory). The regions were determined by referencing the US gov census regions, as identified from the pdf on their official website:
+
+<https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf>
+
+## Proposal Requirement 2 - List and Describe the 5 Selected Variables
+
+Variable | Description
+--------- | ------------------------------------------------
+fipscode | FIPS code
+state | State: my six states are CA, WA, NY, PA, OH, MI
+county | County Name
+income_inequality | (v044) Income Inequality, which will be my **outcome**
+some_college | (v069) Some College Education Rate
+homeownership | (v153) Homeownership Rate
+severe_housing_cost_burden | (v154) Severe Housing Cost Burden Rate
+broadband_access | (v166) Broadband Access Rate
+severe_housing_cost_burden_cat | 5 levels: lowest = severe_housing_cost_burden below 9.42%, low = between 9.42% and 10.87%, medium = between 10.87% and 12.28%, high = between 12.28% and 14.99%, or highest = 14.99% or above
+broadband_access_cat | 2 levels: lowest = broadband_access below 80.0%, or high
+
+
+-   `income_inequality` was originally variable `v044_rawvalue`, and is listed in the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It describes the ratio of households with a household income at the 80th percentile compared to household income at the 20th percentile for each county. The higher the value is, the greater the difference between 80th percentile median income and 20th percentile median income for that county. It is based on data from the American Community Survey's 5-year estimates from 2015-19. This will be my **outcome** variable. This variable was interesting to us because, again while it may be beyond the scope of the project itself, there could be disparities in income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line.
+
+-   `some_college` was originally variable `v069_rawvalue`, and is listed under the Social and Economic Factors subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of adults per county that are between 25-44 years old and possess some post-secondary education. The higher the number, the greater the proportion of people there are in the 25-44 year old age group in the specified county that possess some level of post-secondary education. It is based on data from the American Community Survey's 5-year estimates from 2015-19.
+
+-   `homeownership` was originally variable `v153_rawvalue`, and is listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of occupied housing units that are owned in the given county. The higher the percentage is, the greater the amount of occupant owned housing units is compared to the overall housing occupancy in the associated county, and it is based on the data from the American Community Survey's 5-year estimates from 2015-19.
+
+-   `severe_housing_cost_burden` was originally `v154_rawvalue`, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households that spend 50% or more of their household income on housing. The higher the proportion, the greater the proportion of the associated county's population pays 50% or more of their household income on housing costs. It is based on the data from the American Community Survey's 5-year estimates from 2015-19, and this variable was selected to be the **multi-categorical variable** for this project. It was selected to have five different categories, which were created from four cut points that produce five mutually exclusive and collectively exhaustive categories from the variable's data.
+
+-   `broadband_access` was originally variable `v166_rawvalue`, and is also listed under the Physical Environment subcategory under Health Factors at County Health Rankings. It is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of households with broadband internet connection in the associated county. The higher the value, the greater the proportion of the associated county's population has broadband internet access from their own households. It is based on the data from the American Community Survey's 5-year estimates from 2015-19, and this variable was selected to be the **binary categorical variable** using the median value(s) as the cut point for the creation of the binary categorical.
+
+-   We selected the `some_college`, `homeownership`, `severe_housing_cost_burden`, and `broadband_access` variables to be our analysis variables because they fit within our focus that we determined when creating our title/focus for our project, and while it may be beyond the scope of the project itself, there could be disparities between these variables' relationships with income inequality based on the region of the United States, and we thought this may make an interesting meta-analysis of this project down the line to analyze the results of this project in this manner.
+
+## Proposal Requirement 3 - Print the Tibble
+
+```{r}
+chr_2021
+```
+
+## Proposal Requirement 4 - Show the Final Data Set Details
+
+```{r}
+Hmisc::describe(chr_2021)
+```
+
+## Three Important Checks
+
+-   Do we have any missing data? The `miss_var_summary()` check below illustrates that we do not.
+
+```{r}
+chr_2021 %>% 
+    miss_var_summary()
+```
+
+-   Do the raw versions of each of the five selected variables have at least 10 distinct non-missing values? The `summarize(across())` check below illustrates that we have 397 non-missing values, which matches what we'd expect given the total number of ranked counties from our selected states.
+
+```{r}
+chr_2021 %>% 
+    summarize(across(income_inequality:broadband_access, ~ n_distinct(.)))
+```
+
+-   For each of the categorical variables created, every level of the resulting factor must include at least 10 counties. The check below illustrates that our binary categorical has 198 - 199 in each category, and our multi-categorical has 79 - 80 in each category.
+
+```{r}
+chr_2021 %>% tabyl(severe_housing_cost_burden_cat)
+chr_2021 %>% tabyl(broadband_access_cat)
+```
+
+## Saving the Tibble
+
+```{r}
+saveRDS(chr_2021, file = "data/chr_2021_Steven_Mayher_and_Anna_Magoline.Rds")
+```
+
+## Proposal Requirement 5 - The Most Difficult Part(s) So Far
+
+So far, the most difficult part of completing the work so far was actually arranging time to sit down and work on it together on the project. The two of us have challenging schedules, and because of the nature of the project, without sitting down to discuss it, it became difficult to get the project up off of the ground. Additionally, without a shared means of working on the markdown file, only one of us could work on it at a time, even if we placed the file on a shared drive. While we're still working out our scheduling to ensure that we both get to sit down and discuss the project steps at length and ensure we're on the same page, we have investigated the use of GitHub for hosting our project code, so that we can both work with the file simultaneously. We will use this moving forward to streamline our workflow, and we intend to continue to work through our scheduling issues as well.
+
+Scheduling and technical difficulties aside, the most difficult aspect of the project was actually developing a title (and in extension a focus) for the project that fit the variables we wanted to analyze. While we were interested in analyzing income inequality as an outcome from the beginning, we admittedly cycled out several different variables for the rest of our choices that we initially wanted to use, but couldn't properly unify under a concise but focused title (such as `poor_or_fair_health`, `premature_age_adjusted_mortality`, and `insufficient_sleep` just to name a few). To solve our problem, we decided to first come up with an appropriate name for our study, and then use that as direction to help us determine what variables we should choose to use in our study.
+
+# Analyses
+
+## Ingesting the Data {-}
+
+```{r}
+chr_2021 <- read_rds("data/chr_2021_Steven_Mayher_and_Anna_Magoline.Rds")
+```
+
+## Analysis 1: A Model for the Quantitative Outcome of Income Inequality using the Quantitative Predictor of Homeownership
+
+### The Variables
+
+For this first analysis, the quantitative variable for home ownership will be utilized as a predictor for the **outcome** of income inequality, both of which are identified as `homeownership` and `income_inequality` respectively in the chr_2021 tibble. As discussed in the proposal, these variables are defined as follows:
+
+- `homeownership` was a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of occupied housing units that are owned in the given county. The higher the percentage is, the greater the amount of occupant owned housing units is compared to the overall housing occupancy in the associated county, and it is based on the data from the American Community Survey's 5-year estimates from 2015-19.
+
+- `income_inequality` describes the ratio of households with a household income at the 80th percentile compared to household income at the 20th percentile for each county. The higher the value is, the greater the difference between 80th percentile median income and 20th percentile median income for that county. It is based on data from the American Community Survey's 5-year estimates from 2015-19.
+
+The states selected for this project as a whole (and in turn for this analysis) are California, Washington, New York, Pennsylvania, Michigan, and Ohio, and while it was already demonstrated in the proposal, a summary has been provided below to confirm that all 397 counties in these six states have complete data for the `homeownership` and `income_inequality` variables:
+
+```{r}
+chr_2021 %>%
+  select(c(state, county, income_inequality, homeownership)) %>%
+  miss_var_summary()
+```
+
+The values of the **outcome** `income_inequality` and quantative predictor `homeownership` for Cuyahoga County are 5.56 and 58.24 % respectively, as shown below: 
+
+```{r}
+chr_2021 %>%
+    filter(state == "OH") %>%
+    filter(county == "Cuyahoga County") %>%
+    select(state, county, income_inequality, homeownership)
+```
+
+Lastly, the code below creates a tibble with the two variables of interest (`income_inequality` and `homeownership`) that will be used for this analysis, which has been named `analysis1_data`:
+
+```{r}
+analysis1_data <- chr_2021 %>% select(c(state, county, income_inequality, homeownership))
+```
+
+### Research Question
+
+How well does a linear model using `homeownership` predict the **outcome** `income_inequality`, in 397 counties in the states of California, Washington, New York, Pennsylvania, Michigan, and Ohio? 
+
+### Initial Visualization
+
+```{r}
+ggplot(data = analysis1_data, aes(x = homeownership, y = income_inequality )) + geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, col = "blue") + geom_smooth(method = "loess", col = "purple", se = FALSE, formula = y ~ x) +
+  geom_label(x = 80, y = 8, size = 5, color = "red", label = "y = 7.57 - 0.04x") + 
+  labs(title = "Relationship Between Income Inequality and Homeownership in US", subtitle = "Loess Smooth Depicted in Purple, LM Depicted in Blue", x = "Homeownership", y = "Income Inequality")
+```
+
+The scatterplot above shows the relationship between the quantitative predictor `homeownership` and the **outcome** `income_inequality`. The two variables appear to have a negative linear association, however, the plot indicates that there is some skew present, suggesting a transformation assessment should be performed. 
+
+### Transformation Assessment
+
+As determined from the initial visualization above, it appears that a transformation of the **outcome** data, `income_inequality`, may be necessary for this analysis. As such, a Box-Cox plot was generated below with the appropriate data to verify this, and determine what the ideal transformation should be if one is necessary:
+
+```{r}
+boxCox(analysis1_data$income_inequality ~ analysis1_data$homeownership)
+```
+
+The above Box-Cox Plot peaks close to λ = -1. λ = -1 corresponds to 1/y on Tukey's Ladder, therefore, we will use the inverse of "Income Inequality" for the transformation. The new scatterplot shown below applies this transformation to the **outcome**, and the result indicates a better linear fit with less skew than the initial visualization:
+
+```{r}
+ggplot(data = analysis1_data, aes(x = homeownership, y = 1/income_inequality )) + geom_point() +
+geom_smooth(method = "lm", formula = y ~ x, se = TRUE, col = "blue") + geom_smooth(method = "loess", col = "purple", se = FALSE, formula = y ~ x) +
+geom_label(x = 80, y = 8, size = 5, color = "red", label = "y = 0.099 + 0.0019x") + 
+  labs(title = "Relationship Between Inverse of Income Inequality and Homeownership in US", subtitle = "Loess Smooth Depicted in Purple, LM Depicted in Blue", x = "Homeownership", y = "Inverse of Income Inequality \n (1/income_inequality)")
+```
+
+### Fitting a Model
+
+Utilizing the conclusions above, the following linear model was created for this analysis, using the inverse transformation for the **outcome**:
+
+```{r}
+analysis1_data = analysis1_data %>%
+  mutate(inv_income_inequality = (income_inequality)^(-1))
+
+mod_homeownership = lm(inv_income_inequality ~ homeownership, data = analysis1_data)
+```
+
+#### Model Equation
+
+The exact equation for this model with the model's coefficients is y = 0.099 + 0.002x, where `y` = `inv_income_inequality` and `x` = `severe_housing_cost_burden_cat`, and is shown below:
+
+```{r}
+equatiomatic::extract_eq(mod_homeownership, swap_var_names = c("inv_income_inequality" = "y", "homeownership" = "x"), use_coefs = TRUE, coef_digits = 3)
+```
+
+This equation can be used to predict a value of the **outcome** variable, `income_inequality`, for given values of the quantitative predictor, `homeownership`. It's worth noting that the size of the coefficient for the predictor variable (in this case `homeownership`) indicates the size of the effect that the variable has on the model's fit, and the sign of the coefficient indicates the direction of the effect. So for this model, the predictor variable's coefficient of 0.002 indicates that as `homneownership` increases, the inverse of `income_inequality` also increases at a rate of 0.002 times the `homeownership` percentage.
+
+#### 90 % Confidence Interval
+
+The tidy summary below reiterates the model's coefficients, and includes the 90% confidence interval for model's estimates:
+
+```{r}
+tidy(mod_homeownership, conf.int = TRUE, conf.level = 0.90) %>% kable()
+```
+
+#### Summarizing the Model
+
+The model's R-squared and the number of observations that the model was fit to are provided below with detail for each categorical level with the `summary()` function:
+
+```{r}
+summary(mod_homeownership)
+```
+
+The `glance()` function summarizes this information more concisely, and includes the number of observations (nobs) that the data set fits as well:
+
+```{r}
+glance(mod_homeownership) %>% kable()
+```
+
+The takeaways from both of the functions above is that they demonstrate that the model's adjusted R-squared value = 0.3514, it's residual standard error = 0.02321, and the number of observations that the model was fit to = 397 (i.e. all of them). So the adjusted R-squared value suggests that 35.14 % of the variation is explained by the quantitative predictor variable `homeownership` in this model.
+
+Lastly, the pearson coefficient for the predictor and the outcome variable = 0.5941752, or approximately 0.59, as shown with the `cor` function below:
+
+```{r}
+analysis1_data %$% cor(inv_income_inequality, homeownership)
+```
+
+### Residual Analysis
+
+#### Residual Plots
+
+A plot of the residuals against the quantitative predictor of `homeownership` has been provided below, along with a Normal Q-Q plot for the transformed data:
+
+```{r}
+par(mfrow = c(1,2))
+plot(mod_homeownership, which = c(1:2))
+par(mfrow = c(1,1))
+```
+
+The results of the Residuals vs Fitted plot indicates that this model explains the non-linear relationship of these variables decently. The Normal Q-Q plot does appear to indicate a relatively normal distribution, however it also indicates that the data should be assessed for outliers, such as the values for county 26, as it is very clearly different from the rest of the distribution.
+
+To find the two counties that least fit the model, the `augment` function was used as shown below:
+
+```{r}
+mod_least = augment(mod_homeownership)
+
+mod_least = mod_least %>%
+  mutate(county = analysis1_data$county, state = analysis1_data$state, inverse_income = analysis1_data$inv_income_inequality)
+
+mod_least1 = mod_least %$% order(.resid^2, decreasing = T)
+
+mod_least[mod_least1[1:2],] %>% kable()
+```
+
+The results indicate that Mono County and Sierra County, both in California, were the counties that were least fit by this model.
+
+As stated at the beginning of this analysis, the actual untransformed value for the **outcome** `income_inequality` for Cuyahoga County in Ohio is approximately 5.56, and the table below compares this value to the value predicted for the **outcome** `income_inequality` by this model, which is approximately 4.83:
+
+```{r}
+mod_least = mod_least %>%
+  mutate(.fitted_original = 1/(.fitted), income_inequality = analysis1_data$income_inequality)
+
+mod_least %>%
+  filter(state == "OH") %>%
+  filter(county == "Cuyahoga County") %>%
+  select(c(state, county, income_inequality, .fitted_original)) %>%
+  kable(digits = 2)
+```
+
+### Conclusions and Limitations
+
+For analysis 1 our research question was, "How well does a linear model using home ownership predict income inequality, in 397 counties in the states of Ohio, Michigan, Pennsylvania, New York, California and Washington?" The model appears to largely follow the assumptions of a linear model, as the scatterplot indicates a decent linear fit after transformation of the outcome, the Residuals vs Fitted plot illustrates relatively consistent variance, and the model appears to follow a relatively normal distribution according to the Normal Q-Q plot. As such, this linear model is able to decently predict income inequality base off of home ownership in the 397 counties of this project's selected 6 states.
+
+That said, the model does have some limitations that merit discussion. For example, while the Residuals vs Fitted plot does indicate decently constant covariance, and the Normal Q-Q plot does indicate a relatively normal distribution, there are at least a handful of outliers that should be examined, such as the counties that least fitted the model, Mono and Sierra Counties, as both of the aforementioned plots indicate that Mono county in particular as a rather extreme outlier that doesn't fit either of the normality or constant variance assumptions very well. Additionally, it's worth noting that the states that were selected were chosen to create representative samples of three different regions of the United States, not a representative sample of the US as a whole. As such, these results only really evaluate the west, midwest, and northeast regions of the United States, and this needs to be kept in mind as a limitation when interpreting the results.
+
+## Analysis 2: A Model for the Quantitative Outcome Income Inequality using the Multi-Categorical Predictor of Severe Housing Burden Cost
+
+### The Variables
+
+For this second analysis, the **multi-categorical variable** for the burden of severe housing cost will be utilized as a predictor for the **outcome** of income inequality, both of which are identified as `severe_housing_cost_burden_cat` and `income_inequality` respectively in the chr_2021 tibble. As discussed in the proposal, these variables are defined as follows:
+
+- The `severe_housing_cost_burden` variable itself is a proportion that was multiplied by 100 to convert it to a percentage, and describes the proportion of households that spend 50% or more of their household income on housing. The higher the proportion, the greater the proportion of the associated county's population pays 50% or more of their household income on housing costs. The multi-categorical predictor variable `severe_housing_cost_burden_cat` was created by splitting the `severe_housing_cost_burden` variable into five mutually exclusive and collectively exhaustive categories, accomplished by implementing four cuts intended to split the data as evenly as possible.  
+
+- The **outcome** variable `income_inequality` is a ratio of the 80th percentile median income to the 20th percentile median income for a given county. The larger the ratio is, the larger the discrepancy is between the 80th and 20th median income levels for the given county.
+
+Once again, the states selected for this project as a whole (and in turn for this analysis) are California, Washington, New York, Pennsylvania, Michigan, and Ohio, and while it was already demonstrated in the proposal, a summary has been provided below to confirm that all 397 counties in these six states have complete data for the `severe_housing_cost_burden` and `income_inequality` variables:
+
+```{r}
+chr_2021 %>% 
+  select(c(state, county, income_inequality, severe_housing_cost_burden, severe_housing_cost_burden_cat)) %>%
+  miss_var_summary()
+```
+
+The `income_inequality` and `severe_housing_cost_burden` values for Cuyahoga County in Ohio are 5.56 and 15.36 % respectively, with the included category for `severe_housing_cost_burden` (which is in the "Highest" category) are specified below:
+
+```{r}
+chr_2021 %>%
+    filter(state == "OH") %>%
+    filter(county == "Cuyahoga County") %>%
+    select(state, county, income_inequality, severe_housing_cost_burden, severe_housing_cost_burden_cat)
+```
+
+Lastly, the subset of data relevant for this analysis from the chr_2021 data set (i.e. the state, county, income_inequality, severe_housing_cost_burden, and the severe_housing_cost_burden_cat variables) has been defined as a new tibble called `analysis2_data`, shown below:
+
+```{r}
+analysis2_data = chr_2021 %>% select(state, county, income_inequality, severe_housing_cost_burden, severe_housing_cost_burden_cat)
+```
+
+### Research Question
+
+Which of the `severe_housing_cost_burden_cat` categories is associated with the highest mean level of `income_inequality`, in the 397 counties in the states of California, Washington, New York, Pennsylvania, Michigan, and Ohio?
+
+### Initial Visualization
+
+### Should the **Outcome** be Transformed?
+
+Before this analysis can be completed, the `severe_housing_cost_burden_cat` data needs to be evaluated against the `income_inequality` **outcome** data to determine whether a transformation of the **outcome** is necessary, just as with the first analysis. To that end a Boxplot with an overlaying Violin plot was generated below with the appropriate data:
+
+- It's worth noting that the factor levels for the categorical varialbe `severe_housing_cost_burden_cat` were re-coded again with `fct_recode` to include the percentage intervals for each level as part of the plot for complete clarification as to what each group represents in terms of population percentage.
+
+```{r}
+analysis2_data <- analysis2_data %>%
+    mutate(severe_housing_cost_burden_cat_plot = fct_recode(severe_housing_cost_burden_cat,
+                                   "Lowest \n (5.25 % - 9.42%)" = "Lowest",
+                                   "Low \n (9.42 % - 10.87%)" = "Low",
+                                   "Medium \n (10.87 % - 12.28 %)" = "Medium",
+                                   "High \n (12.28 % - 14.99 %)" = "High",
+                                   "Highest \n (14.99 % - 31.04 %)" = "Highest"))
+
+ggplot(analysis2_data, aes(x = severe_housing_cost_burden_cat_plot, y = income_inequality)) +
+    geom_violin() +
+    geom_boxplot(width = 0.3) +
+    stat_summary(fun="mean", geom="point", shape=23, size=3, fill="white") +
+    labs(title = "Violin Boxplot: Data without Transformation", subtitle = "Income Inequality as Predicted by Severe Housing Cost Burden", x = "Severe Housing Cost Burden \n (Population Percentage)", y = "Income Inequality \n (Ratio of 80th to 20th percentile medians)")
+```
+
+A cursory examination of the Boxplot with the overlaying Violin plot illustrates that there is some right skew present, so a transformation of the **outcome** `income_inequality` should be performed. Utilizing the underlying data for the `severe_housing_cost_burden_cat` variable (i.e. the `severe_housing_cost_burden` data) with the `income_inequality` data to create a boxCox plot reveals that the most appropriate transformation for the **outcome**:
+
+```{r}
+boxCox(analysis2_data$income_inequality ~ analysis2_data$severe_housing_cost_burden)
+```
+
+According to the boxCox plot above, the most appropriate transformation of the **outcome** of the `income_inequality` data when compared to the `severe_housing_cost_burden` data would be the -1.256081 power, which is confirmed with the following `powerTransform` function from the `car` library below:
+
+```{r}
+powerTransform(analysis2_data$income_inequality ~ analysis2_data$severe_housing_cost_burden)
+```
+
+As such, the most appropriate power transformation from The Ladder of Power Transformations for the **outcome** data would be the inverse power transformation, which is demonstrated below utilizing the `testTransform` function from the `car` library:
+
+```{r}
+testTransform(powerTransform(analysis2_data$income_inequality ~ analysis2_data$severe_housing_cost_burden), -1)
+```
+
+A new Boxplot with an overlaying Violin plot has been generated below with an inverse transformation applied to the **outcome** `income_inequality`:
+
+```{r}
+analysis2_data = analysis2_data %>%
+  mutate(inv_income_inequality = (income_inequality)^(-1))
+
+ggplot(analysis2_data, aes(x = severe_housing_cost_burden_cat_plot, y = inv_income_inequality)) +
+    geom_violin() +
+    geom_boxplot(width = 0.3) +
+    stat_summary(fun="mean", geom="point", shape=23, size=3, fill="white") +
+    labs(title = "Violin Boxplot: Transformed Data", subtitle = "Inverse of Income Inequality vs Severe Housing Cost Burden", x = "Severe Housing Cost Burden \n (Population Percentage)", y = "Inverse Income Inequality \n (Ratio of 80th to 20th percentile medians)")
+```
+
+The resulting plot above demonstrates significantly improved linearity between the severe housing cost burden categorical predictor `severe_housing_cost_burden_cat` and the **outcome** variable `income_inequality` (now the transformed `inv_income_inequality` variable), and indicates that as the inverse ratio of income inequality decreases for the counties in the selected states, the severe housing cost burden (which again is the percentage of a county's population that spend 50% or more of their household income on housing) increases.
+
+### The Fitted Model
+
+#### Fitting a Model
+
+Utilizing the conclusions above, the following linear model was created for this analysis, using the inverse transformation for the **outcome**:
+
+```{r}
+mod_shcb <- lm(inv_income_inequality ~ severe_housing_cost_burden_cat, data = analysis2_data)
+```
+
+#### Model Equation
+
+The exact equation for this model with the model's coefficients is as follows, where `y` = `inv_income_inequality` and `x` = `severe_housing_cost_burden_cat`:
+
+```{r}
+equatiomatic::extract_eq(mod_shcb, swap_var_names = c("inv_income_inequality" = "y", "severe_housing_cost_burden_cat" = "x"), use_coefs = TRUE, coef_digits = 3)
+```
+
+It's worth noting that the size of the coefficients for each categorical variable (in this case the categories of `severe_housing_cost_burden`) indicate the size of the effect that the specified categorical variable has on the model's fit, and the sign of the coefficient indicates the direction of the effect. So for this model, the *Highest* category had the largest effect on the model, and the *Low* category had the smallest effect.
+
+#### Summarizing the Model
+
+The model's R-squared and the number of observations that the model was fit to are provided below with detail for each categorical level with the `summary()` function:
+
+```{r}
+summary(mod_shcb)
+```
+
+The `glance()` function summarizes this information more concisely, and includes the number of observations (nobs) that the data set fits as well:
+
+```{r}
+glance(mod_shcb) %>% select(r.squared:df, df.residual, nobs) %>%
+  kable(digits = c(3, 3, 1, 2, 3, 0, 0, 0))
+```
+
+
+The takeaways from both of the functions above demonstrate that the model's adjusted R-squared value = 0.397, it's residual standard error = 0.02239, and the number of observations that the model was fit to = 397 (i.e. all of them). So the adjusted R-squared value suggests that 39.7 % of the variation is explained by the categorical variable in this model.
+
+#### ANOVA comparisons
+
+To assess whether any of the variance in `inv_income_inequality` is due to the different categories of the multi-categorical variable `severe_housing_cost_burden_cat` in this model, an *ANOVA* comparison should be examined. The results of the ANOVA for the `mod_shcb` model are shown below:
+
+```{r}
+anova(mod_shcb)
+```
+
+The null hypothesis for an ANOVA analysis claims that the difference in variance of the dependent variable (in this case `inv_income_inequality`) is not due to the categorical variable (i.e. `severe_housing_cost_buren`), and is associated with a low F value (close to 1 most of the time) and a high p value. The alternative hypothesis asserts that the difference in variance is due to the categorical variable, and is associated with a high F value and a low p value. The ANOVA for this model does produce a low p value, near 0 p value = 2.2e-16 (i.e. p value = 0.0000000000000002), and has a relatively high F value of 66.177. As such, the results of the ANOVA test suggest that the alternative hypothesis may be correct, that the variance of `inv_income_inequality` is due to the different categories of the multi-categorical variable `severe_housing_cost_burden_cat` in this model.
+
+#### Tukey HSD pairwise comparisons
+
+While the ANOVA above suggests that the variance of `inv_income_inequality` may be due to the different categories of the multi-categorical variable `severe_housing_cost_burden_cat` in the model `mod_shcb`, to tell if the differences in the means of each `severe_housing_cost_burden` category from the ANOVA test are honestly different from each other, a Tukey HSD pairwise comparison test should be performed. The code below accomplishes this test:
+
+```{r}
+tuk_shcb <- tidy(TukeyHSD(aov(inv_income_inequality ~ severe_housing_cost_burden_cat, data = analysis2_data), 
+                    ordered = TRUE, conf.level = 0.90))
+
+tuk_shcb %>% rename(null = null.value) %>% kable(dig = 3)
+```
+The results, which have been plotted below:
+
+```{r}
+ggplot(tuk_shcb, aes(x = reorder(contrast, -estimate), y = estimate)) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high)) +
+  geom_hline(yintercept = 0, col = "red", linetype = "dashed") +
+  geom_label(aes(label = round_half_up(estimate,3))) +
+  coord_flip() +
+  labs(x = "Contrast between Severe Housing Cost Burden Groups", y = "Estimated Effect, with 90% Tukey HSD interval", title = "Estimated Effects, with Tukey HSD 90% Confidence Intervals", subtitle = "Comparing Inverse Income Inequality by Severe Housing Cost Burden Group")
+```
+
+The results of this test indicate that all but one of the categorical pairs have a have an honestly meaningful statistical difference in the means. The only two categories that don't have an honestly meaningful statistical difference with each other are the Medium and High categories.
+
+### Prediction Analysis
+
+#### Residual Plots
+
+A plot of the residuals against the categorical predictor has been provided below, along with a Normal Q-Q plot for the transformed data:
+
+```{r}
+par(mfrow = c(1,2))
+plot(mod_shcb, which = c(1:2))
+par(mfrow = c(1,1))
+```
+
+While the Residuals vs Fitted plot isn't incredibly helpful for categorical data, both it and the Normal Q-Q plot illustrate that the two counties that are predicted the worst by this model are counties 172 and 26 from the `analysis2_data` data set. The `augment` function can be used to verify this, and determine which counties these actually are:
+
+```{r}
+mod_shcb_aug = augment(mod_shcb)
+
+
+mod_shcb_aug = mod_shcb_aug %>%
+  mutate(county = analysis2_data$county, state = analysis2_data$state, inv_income_inequality = analysis2_data$inv_income_inequality)
+
+mod_shcb_aug1 = mod_shcb_aug %$% order(.resid^2, decreasing = T)
+
+mod_shcb_aug[mod_shcb_aug1[1:2],] %>% kable()
+```
+
+This shows that the two counties that are least fit by this model are Mono County, California and New York County, New York.
+
+As discussed previously, the actual untransformed value for the **outcome** `income_inequality` is approximately 5.56, and the table below compares this value to the value predicted for the **outcome** `income_inequality` by this model, which is approximately 4.95:
+
+```{r}
+mod_shcb_aug = mod_shcb_aug %>%
+  mutate(.fitted_original = 1/(.fitted), income_inequality = analysis2_data$income_inequality)
+
+mod_shcb_aug %>%
+  filter(state == "OH") %>%
+  filter(county == "Cuyahoga County") %>%
+  select(c(state, county, income_inequality, .fitted_original)) %>%
+  kable()
+```
+
+Lastly, the Normal Q-Q plot does appear to indicate a more little uniformity in the distribution than would be expected in a normal distribution, however this could potentially be corrected by removing outliers.
+
+### Conclusions and Limitations
+
+So what conclusions, if any, does this analysis suggest about the initial research question, and what are the limitations of the both the analysis and any conclusions that can be drawn? To reiterate, the research question for this analysis asked the following:
+
+- Which of the `severe_housing_cost_burden_cat` categories is associated with the highest mean level of `income_inequality`, in the 397 counties in the states of California, Washington, New York, Pennsylvania, Michigan, and Ohio?
+
+Given that the linear model for this experiment was created by applying an inverse transformation to the `income_inequality` **outcome**, this indicates that the category of severe housing cost burden with the highest mean level of income inequality will be the category that has the lowest mean level of inverse income inequality, for as `income_inequality` increases, the inverse of income inequality, 1/`income_inequality`, will decrease. Examination of the violin boxplot of the transformed data indicates that severe housing cost burden category with the lowest mean level of inverse income inequality is the *Highest* category, so this is the category that has the highest mean level of `income_inequality` out of the five categories.
+
+One possible limitation of the analysis performed above is the possible presence of outliers. No outliers were removed from this analysis, and there are at least a couple outlier counties that should be assessed, such as the two counties that were least fitted by the model, Mono County California and New York County New York. While the Residuals vs Fitted plot isn't particularly helpful for assessing linearity for categorical predictors like the one used in this analysis, the Normal Q-Q plot does indicate the presence of outliers that could have skewed the normality of these results, such as the aforementioned counties that were least fit by the model. Additionally, it's worth noting that, like with the first model, the states that were selected were chosen to create representative samples of three different regions of the United States, not a representative sample of the US as a whole. As such, these results only really evaluate the west, midwest, and northeast regions of the United States, and this needs to be kept in mind as a limitation when interpreting the results.
+
+## Analysis 3: A Model for Income Inequality, using homeownership, and adjusting for State
+
+### The Variables
+
+As with the first analysis, the quantitative variable used as a predictor for this final analysis will be `homeownership`, and this variable will again be used to predict the **outcome** income inequality, both of which are identified as `homeownership` and `income_inequality` respectively in the chr_2021 tibble. This time though, the results will be grouped by the selected states for for this project - California, Washington, New York, Pennsylvania, Michigan, and Ohio. As discussed in the proposal, these variables are defined as follows:
+
+- The predictor variable `homeownership` is a proportion that we multiplied by 100 to convert it to a percentage, and it describes the proportion of occupied housing units that are owned in the given county. The higher the percentage is, the greater the amount of occupant owned housing units is compared to the overall housing occupancy in the associated county, and it is based on the data from the American Community Survey's 5-year estimates from 2015-19.
+
+- The **outcome** variable `income_inequality` is a ratio of the 80th percentile median income to the 20th percentile median income for a given county. The larger the ratio is, the larger the discrepancy is between the 80th and 20th median income levels for the given county.
+
+
+As with the first two analyses, a new data set, called `analysis3_data` was created for this analysis from the `chr_2021` tibble. Given that the inverse transformation of the **outcome** `income_inequality` has been used for the previous two analyses, it has been added to this tibble as well and will be used for this analysis too, all of which can be seen below:
+
+```{r}
+analysis3_data = chr_2021 %>% select(state, county, income_inequality, homeownership, severe_housing_cost_burden_cat)
+analysis3_data = analysis3_data %>%
+  mutate(inv_income_inequality = (income_inequality)^(-1)) %>%
+  mutate(state = fct_relevel(state, "OH"))
+```
+
+### Research Question
+
+How well does `homeownership` predict **outcome** `income_inequality` after accounting for differences between California, Washington, New York, Pennsylvania, Michigan, and Ohio?
+
+### Initial Visualization
+
+The visualization below illustrates inverse income inequality as predicted by severe housing cost burden, just like the first analysis, but this time broken down by state:
+
+```{r}
+ggplot(data = analysis3_data, aes(x = homeownership, y = inv_income_inequality, col = severe_housing_cost_burden_cat, group = state)) +
+    geom_point() +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
+    facet_wrap(~ state) +
+    labs(title = "Inverse Income Inequality vs. Homeownership by State", x = "Homeownership (Percent Population)", y = "Inverse Income Inequality (Ratio)") 
+```
+
+This plot indicates that for each state, inverse income inequality increases (or that income inequality decreases) as `homeownership` increases, however the rate at which the inverse income inequality increases varies by state, with Ohio indicating the strongest relationship between the predictor and outcome, and California and Washington indicating the weakest relationship between the predictor and outcome. The plot also indicates that some states have higer income inequality than others, such as California, for it appears to have the highest number of counties out of the selected states that fall within the *Highest* category level of `severe_housing_cost_burden`.
+
+### Fitting a Model
+
+#### The Model
+
+The following linear model was created for this analysis using the inverse transformation for the `income_inequality` **outcome** variable:
+
+```{r}
+mod_analysis3 = lm(inv_income_inequality ~ homeownership * state, data = analysis3_data)
+```
+
+#### Model Equation
+
+The exact equation for this model with the model's coefficients is as follows, where `y` = `inv_income_inequality`, `x` = `state`, and `z` = `homeownership`:
+
+```{r}
+equatiomatic::extract_eq(mod_analysis3, swap_var_names = c("inv_income_inequality" = "y", "state" = "x", "homeownership" = "z"), use_coefs = TRUE, coef_digits = 4, wrap = TRUE)
+```
+
+It's worth noting that, as with the other linear models, the size of the coefficients for the predictor variable (i.e. `homeownership`) while adjustment variable `state` indicate the size of the effect that the specified variables have on the model's fit, and the sign of the coefficient indicates the direction of the effect. So for this model, the *Highest* category from the `` categorical variable had the largest effect on the model. A
+
+#### 90 % Confidence Interval
+
+The tidy summary below reiterates the model's coefficients, and includes the 90% confidence interval for model's estimates that uses Ohio as a baseline:
+
+```{r}
+tidy(mod_analysis3, conf.int = TRUE, conf.level = 0.90) %>%
+    select(term, estimate, conf.low, conf.high) %>%
+    kable(digits = 4)
+```
+#### Summarizing the Model
+
+The model's R-squared value and the number of observations that the model was fit to are provided below with details for each state, and with Ohio as the baseline, with the `summary()` function:
+
+```{r}
+summary(mod_analysis3)
+```
+
+The `glance()` function summarizes this information more concisely, and includes the number of observations (nobs) that the data set fits as well:
+
+```{r}
+glance(mod_analysis3)  %>% select(r.squared:df, df.residual, nobs) %>%
+  kable(digits = c(3, 3, 1, 2, 3, 0, 0, 0))
+```
+
+The takeaways from both of the functions above is that they demonstrate that the model's adjusted R-squared value = 0.395, it's residual standard error = 0.02242, and the number of observations that the model was fit to = 397 (i.e. all of them). So the adjusted R-squared value suggests that 39.5 % of the variation is explained by the quantitative predictor variable when accounting for state in this model.
+
+#### ANOVA comparisons
+
+To assess whether any of the variance in `inv_income_inequality` is due to the predictor variable `homeownership` in this model when adjusting for `state` as a factor, an *ANOVA* comparison should be examined. The results of the ANOVA for the `mod_shcb` model are shown below:
+
+
+```{r}
+anova(mod_analysis3)
+```
+
+### Residual Analysis
+
+#### Residual Plots
+
+```{r}
+par(mfrow = c(1,2))
+plot(mod_analysis3, which = c(1:2))
+par(mfrow = c(1,1))
+```
+
+The results of the Residuals vs Fitted plot indicates that this model explains the non-linear relationship of these variables decently. The Normal Q-Q plot does appear to indicate a relatively normal distribution, however it also indicates that the data should be assessed for outliers, such as the values for county 26, as it is very clearly different from the rest of the distribution.
+
+To find the two counties that least fit the model, the `augment` function was used as shown below:
+
+```{r}
+mod_analysis3_aug = augment(mod_analysis3)
+
+mod_analysis3_aug = mod_analysis3_aug %>%
+  mutate(county = analysis3_data$county, state = analysis3_data$state, inverse_income = analysis3_data$inv_income_inequality)
+
+mod_analysis3_aug1 = mod_analysis3_aug %$% order(.resid^2, decreasing = T)
+
+mod_analysis3_aug[mod_analysis3_aug1[1:2],] %>% kable()
+```
+
+The results indicate that Mono County California and Columl County Washington were the counties that were least fit by this model.
+
+As stated at the beginning of this analysis, the actual untransformed value for the **outcome** `income_inequality` for Cuyahoga County in Ohio is approximately 5.56, and the table below compares this value to the value predicted for the **outcome** `income_inequality` by this model, which is approximately 5.14:
+
+```{r}
+mod_analysis3_aug = mod_analysis3_aug %>%
+  mutate(.fitted_original = 1/(.fitted), income_inequality = analysis1_data$income_inequality)
+
+mod_analysis3_aug %>%
+  filter(state == "OH") %>%
+  filter(county == "Cuyahoga County") %>%
+  select(c(state, county, income_inequality, .fitted_original)) %>%
+  kable(digits = 2)
+```
+
+### Conclusions and Limitations
+
+For analysis 3 our research question was, "How well does `homeownership` predict **outcome** `income_inequality` after accounting for differences between California, Washington, New York, Pennsylvania, Michigan, and Ohio?" The model appears to largely follow the assumptions of a linear model, as the scatterplot indicates a decent linear fit after transformation of the outcome, the Residuals vs Fitted plot illustrates relatively consistent variance, and the model appears to follow a relatively normal distribution according to the Normal Q-Q plot.
+
+That said, the model does have some limitations that merit discussion. For example, while the Residuals vs Fitted plot does indicate decently constant covariance, and the Normal Q-Q plot does indicate a relatively normal distribution, there are at least a handful of outliers that should be examined, such as the counties that least fitted the model, Mono and Columl Counties, as both of the aforementioned plots indicate that Mono county in particular as a rather extreme outlier that doesn't fit either of the normality or constant variance assumptions very well. Additionally, it's worth noting that the states that were selected were chosen to create representative samples of three different regions of the United States, not a representative sample of the US as a whole. As such, these results only really evaluate the west, midwest, and northeast regions of the United States, and this needs to be kept in mind as a limitation when interpreting the results.
+
+# Session Information
+
+```{r}
+sessionInfo()
+```
