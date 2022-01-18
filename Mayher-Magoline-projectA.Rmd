@@ -232,7 +232,7 @@ chr_2021 %>%
   miss_var_summary()
 ```
 
-The values of the **outcome** `income_inequality` and quantative predictor `homeownership` for Cuyahoga County are 5.56 and 58.24 % respectively, as shown below: 
+The values of the **outcome** `income_inequality` and quantitative predictor `homeownership` for Cuyahoga County are 5.56 and 58.24 % respectively, as shown below: 
 
 ```{r}
 chr_2021 %>%
@@ -260,7 +260,7 @@ ggplot(data = analysis1_data, aes(x = homeownership, y = income_inequality )) + 
   labs(title = "Relationship Between Income Inequality and Homeownership in US", subtitle = "Loess Smooth Depicted in Purple, LM Depicted in Blue", x = "Homeownership", y = "Income Inequality")
 ```
 
-The scatterplot above shows the relationship between the quantitative predictor `homeownership` and the **outcome** `income_inequality`. The two variables appear to have a negative linear association, however, the plot indicates that there is some skew present, suggesting a transformation assessment should be performed. 
+The scatter-plot above shows the relationship between the quantitative predictor `homeownership` and the **outcome** `income_inequality`. The two variables appear to have a negative linear association, however, the plot indicates that there is some skew present, suggesting a transformation assessment should be performed. 
 
 ### Transformation Assessment
 
@@ -270,7 +270,7 @@ As determined from the initial visualization above, it appears that a transforma
 boxCox(analysis1_data$income_inequality ~ analysis1_data$homeownership)
 ```
 
-The above Box-Cox Plot peaks close to λ = -1. λ = -1 corresponds to 1/y on Tukey's Ladder, therefore, we will use the inverse of "Income Inequality" for the transformation. The new scatterplot shown below applies this transformation to the **outcome**, and the result indicates a better linear fit with less skew than the initial visualization:
+The above Box-Cox Plot peaks close to λ = -1. λ = -1 corresponds to 1/y on Tukey's Ladder, therefore, we will use the inverse of "Income Inequality" for the transformation. The new scatter-plot shown below applies this transformation to the **outcome**, and the result indicates a better linear fit with less skew than the initial visualization:
 
 ```{r}
 ggplot(data = analysis1_data, aes(x = homeownership, y = 1/income_inequality )) + geom_point() +
@@ -374,7 +374,7 @@ mod_least %>%
 
 ### Conclusions and Limitations
 
-For analysis 1 our research question was, "How well does a linear model using home ownership predict income inequality, in 397 counties in the states of Ohio, Michigan, Pennsylvania, New York, California and Washington?" The model appears to largely follow the assumptions of a linear model, as the scatterplot indicates a decent linear fit after transformation of the outcome, the Residuals vs Fitted plot illustrates relatively consistent variance, and the model appears to follow a relatively normal distribution according to the Normal Q-Q plot. As such, this linear model is able to decently predict income inequality base off of home ownership in the 397 counties of this project's selected 6 states.
+For analysis 1 our research question was, "How well does a linear model using home ownership predict income inequality, in 397 counties in the states of Ohio, Michigan, Pennsylvania, New York, California and Washington?" The model appears to largely follow the assumptions of a linear model, as the scatter-plot indicates a decent linear fit after transformation of the outcome, the Residuals vs Fitted plot illustrates relatively consistent variance, and the model appears to follow a relatively normal distribution according to the Normal Q-Q plot. As such, this linear model is able to decently predict income inequality base off of home ownership in the 397 counties of this project's selected 6 states.
 
 That said, the model does have some limitations that merit discussion. For example, while the Residuals vs Fitted plot does indicate decently constant covariance, and the Normal Q-Q plot does indicate a relatively normal distribution, there are at least a handful of outliers that should be examined, such as the counties that least fitted the model, Mono and Sierra Counties, as both of the aforementioned plots indicate that Mono county in particular as a rather extreme outlier that doesn't fit either of the normality or constant variance assumptions very well. Additionally, it's worth noting that the states that were selected were chosen to create representative samples of three different regions of the United States, not a representative sample of the US as a whole. As such, these results only really evaluate the west, midwest, and northeast regions of the United States, and this needs to be kept in mind as a limitation when interpreting the results.
 
@@ -419,9 +419,9 @@ Which of the `severe_housing_cost_burden_cat` categories is associated with the 
 
 ### Should the **Outcome** be Transformed?
 
-Before this analysis can be completed, the `severe_housing_cost_burden_cat` data needs to be evaluated against the `income_inequality` **outcome** data to determine whether a transformation of the **outcome** is necessary, just as with the first analysis. To that end a Boxplot with an overlaying Violin plot was generated below with the appropriate data:
+Before this analysis can be completed, the `severe_housing_cost_burden_cat` data needs to be evaluated against the `income_inequality` **outcome** data to determine whether a transformation of the **outcome** is necessary, just as with the first analysis. To that end a Box-plot with an overlaying Violin plot was generated below with the appropriate data:
 
-- It's worth noting that the factor levels for the categorical varialbe `severe_housing_cost_burden_cat` were re-coded again with `fct_recode` to include the percentage intervals for each level as part of the plot for complete clarification as to what each group represents in terms of population percentage.
+- It's worth noting that the factor levels for the categorical variable `severe_housing_cost_burden_cat` were re-coded again with `fct_recode` to include the percentage intervals for each level as part of the plot for complete clarification as to what each group represents in terms of population percentage.
 
 ```{r}
 analysis2_data <- analysis2_data %>%
@@ -439,7 +439,7 @@ ggplot(analysis2_data, aes(x = severe_housing_cost_burden_cat_plot, y = income_i
     labs(title = "Violin Boxplot: Data without Transformation", subtitle = "Income Inequality as Predicted by Severe Housing Cost Burden", x = "Severe Housing Cost Burden \n (Population Percentage)", y = "Income Inequality \n (Ratio of 80th to 20th percentile medians)")
 ```
 
-A cursory examination of the Boxplot with the overlaying Violin plot illustrates that there is some right skew present, so a transformation of the **outcome** `income_inequality` should be performed. Utilizing the underlying data for the `severe_housing_cost_burden_cat` variable (i.e. the `severe_housing_cost_burden` data) with the `income_inequality` data to create a boxCox plot reveals that the most appropriate transformation for the **outcome**:
+A cursory examination of the Box-plot with the overlaying Violin plot illustrates that there is some right skew present, so a transformation of the **outcome** `income_inequality` should be performed. Utilizing the underlying data for the `severe_housing_cost_burden_cat` variable (i.e. the `severe_housing_cost_burden` data) with the `income_inequality` data to create a boxCox plot reveals that the most appropriate transformation for the **outcome**:
 
 ```{r}
 boxCox(analysis2_data$income_inequality ~ analysis2_data$severe_housing_cost_burden)
